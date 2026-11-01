@@ -27,7 +27,8 @@ console.log(back.total); // 18446744073709551616n
 console.log(back.self === back); // true
 ```
 
-Features:
+## Features:
+
 - 🔁 Drop-in for `JSON`: `DSON.parse` and `DSON.stringify` have the shape of their `JSON` twins, and the output is valid JSON
 - 🧬 Types survive: `Map`, `Set`, `Date`, `RegExp`, `BigInt`, `Error`, typed arrays, `ArrayBuffer`, `DataView`, `undefined`, `NaN`, `±Infinity` and `-0`
 - 🔗 Cycles and shared references: an object used twice is written once and restored as one object
