@@ -74,3 +74,5 @@ Wrap: EVERY lead becomes a test | .vae/VERIFY.py rule | one MEMORY line with BC,
 2026-11-01T20:04:23Z s=80ef108c FINDING docs/index.html#faq learn=test: e2e/site.spec.ts counts the FAQ cards
 2026-11-01T20:11:43Z s=80ef108c DONE fp=2aaf68849b67 cov=100.0% paths=bun.lock,docs/data/manifest.json,package.json,scripts/site.mjs
 2026-11-01T20:11:43Z s=80ef108c FINDING scripts/site.mjs:measure learn=verifier: site.mjs --check in CI now compares a platform-independent figure; the measure() comment records why node:zlib must not return
+2026-11-01T20:19:35Z s=80ef108c DONE fp=29c6357d6302 cov=100.0% paths=ARCH.md,docs/assets/site.js,e2e/site.spec.ts
+2026-11-01T20:19:35Z s=80ef108c FINDING docs/assets/site.js:version badges learn=test: e2e/site.spec.ts answers the request itself: 9.9.9 updates every badge, a 503 keeps the build's version, in Chromium and WebKit

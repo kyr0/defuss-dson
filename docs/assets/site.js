@@ -289,4 +289,18 @@ $('copy-prompt').addEventListener('click', () => copy(
   [...document.querySelectorAll('#agent-prompt pre:not([data-tone]) code')].map((code) => code.textContent).join('\n'),
   $('copy-prompt-status')));
 
+// ---- Version badges -------------------------------------------------------------------------------------------
+// `make docs` writes the version of package.json into the badges, which runs ahead of npm between a version bump and
+// its publish. The page therefore asks jsDelivr, which already serves this page's components, for the version npm
+// marks as latest. Offline, blocked or malformed, the build's version stays.
+const LATEST = 'https://data.jsdelivr.com/v1/packages/npm/defuss-dson/resolved?specifier=latest';
+fetch(LATEST)
+  .then((response) => (response.ok ? response.json() : undefined))
+  .then((latest) => {
+    if (!/^\d+\.\d+\.\d+(-[\w.]+)?$/.test(latest?.version ?? '')) return;
+    for (const badge of document.querySelectorAll('[data-fact="version"]')) badge.textContent = `v${latest.version}`;
+    document.documentElement.dataset.version = latest.version;
+  })
+  .catch(() => {});
+
 document.documentElement.dataset.ready = 'true';

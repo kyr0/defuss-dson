@@ -68,8 +68,13 @@ test.describe("library in the browser", () => {
 
 test.describe("website", () => {
   let errors: string[];
+  // The version badges ask jsDelivr for npm's latest version. The tests answer for it, so they do not depend on what
+  // npm serves; by default with the build's version, which the static badges hold, too.
+  const LATEST = "https://data.jsdelivr.com/v1/packages/npm/defuss-dson/resolved?specifier=latest";
+  const answer = (version: string) => ({ json: { version }, headers: { "access-control-allow-origin": "*" } });
   test.beforeEach(async ({ page }) => {
     errors = watch(page);
+    await page.route(LATEST, (route) => route.fulfill(answer(manifest.version)));
     await page.goto("/");
     await expect(page.locator("html")).toHaveAttribute("data-ready", "true");
   });
@@ -89,6 +94,21 @@ test.describe("website", () => {
     expect(versions.length).toBeGreaterThanOrEqual(3);
     for (const text of versions) expect(text).toBe(`v${manifest.version}`);
     for (const text of await page.locator('[data-fact="gzip"]').allTextContents()) expect(text).toBe(`${(manifest.esm.gzip / 1000).toFixed(1)} kB`);
+  });
+
+  test("version badges show npm's latest version from jsDelivr, and keep the build's version when it fails", async ({ page }) => {
+    const badges = page.locator('[data-fact="version"]');
+    await page.route(LATEST, (route) => route.fulfill(answer("9.9.9")));
+    await page.reload();
+    await expect(page.locator("html")).toHaveAttribute("data-version", "9.9.9");
+    for (const badge of await badges.all()) await expect(badge).toHaveText("v9.9.9");
+    await page.route(LATEST, (route) => route.fulfill({ status: 503, body: "down", headers: { "access-control-allow-origin": "*" } }));
+    await page.reload();
+    await expect(page.locator("html")).toHaveAttribute("data-ready", "true");
+    await expect(page.locator("html")).not.toHaveAttribute("data-version", /./);
+    for (const badge of await badges.all()) await expect(badge).toHaveText(`v${manifest.version}`);
+    // the 503 is the case under test, not a defect of the page; the browser also logs it to the console
+    errors.splice(0, errors.length, ...errors.filter((error) => !/data\.jsdelivr\.com|status of 503/.test(error)));
   });
 
   test("Benchmarks: one table per runtime and the coverage rings show the recorded figures", async ({ page }) => {
