@@ -69,6 +69,7 @@
     "@playwright/test": "1.63.0",
     "@types/node": "24.10.0",
     "@vitest/coverage-v8": "4.1.12",
+    "fflate": "0.8.2",
     "oxlint": "1.90.0",
     "pkgroll": "2.29.0",
     "shiki": "4.5.0",

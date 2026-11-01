@@ -72,3 +72,5 @@ Wrap: EVERY lead becomes a test | .vae/VERIFY.py rule | one MEMORY line with BC,
 2026-11-01T20:00:22Z s=80ef108c FINDING scripts/site.mjs:RUNTIMES learn=none: presentation order chosen by the human
 2026-11-01T20:04:23Z s=80ef108c DONE fp=be942396c5b5 cov=100.0% paths=.claude/settings.json,.github/workflows/verify.yml,.oxlintrc.json,AGENTS.md(+50)
 2026-11-01T20:04:23Z s=80ef108c FINDING docs/index.html#faq learn=test: e2e/site.spec.ts counts the FAQ cards
+2026-11-01T20:11:43Z s=80ef108c DONE fp=2aaf68849b67 cov=100.0% paths=bun.lock,docs/data/manifest.json,package.json,scripts/site.mjs
+2026-11-01T20:11:43Z s=80ef108c FINDING scripts/site.mjs:measure learn=verifier: site.mjs --check in CI now compares a platform-independent figure; the measure() comment records why node:zlib must not return

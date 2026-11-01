@@ -2,10 +2,10 @@
   "version": "1.2.0",
   "esm": {
     "bytes": 11600,
-    "gzip": 3180
+    "gzip": 3228
   },
   "cjs": {
     "bytes": 11619,
-    "gzip": 3191
+    "gzip": 3239
   }
 }

@@ -1,7 +1,7 @@
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
-import { gzipSync } from 'node:zlib';
+import { gzipSync } from 'fflate';
 import { fileURLToPath } from 'node:url';
 
 // Derives every generated figure from the build, so pages cannot state a size or version the package does not have:
@@ -17,11 +17,18 @@ const PAGES = ['README.md', 'docs/index.html', 'documentation/format.md'];
 
 const kB = (bytes) => `${(bytes / 1000).toFixed(1)} kB`;
 
+/**
+ * Sizes of the build, gzipped by fflate. Why not node:zlib: the runtime's zlib gives a different size for the same
+ * bytes on each runtime and CPU, so CI (Node.js 24, x86-64) failed the --check against figures written on another
+ * machine. fflate is plain JavaScript and compresses identically everywhere.
+ * VERIFIED: (probe, 2026-11-01) for the same dist/index.mjs, node:zlib level 9 gave 3,180 bytes on Node.js 26 and
+ * 3,186 on Bun 1.4.3; fflate 0.8.2 gave 3,228 on both.
+ */
 export async function measure() {
   const { version } = JSON.parse(await readFile(at('package.json'), 'utf8'));
   const file = async (name) => {
     const body = await readFile(at(`dist/${name}`));
-    return { bytes: body.length, gzip: gzipSync(body, { level: 9 }).length };
+    return { bytes: body.length, gzip: gzipSync(body, { level: 9, mtime: 0 }).length };
   };
   return { version, esm: await file('index.mjs'), cjs: await file('index.cjs') };
 }
