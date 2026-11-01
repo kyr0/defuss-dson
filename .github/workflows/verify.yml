@@ -1,0 +1,26 @@
+# defuss-vae CI: the same verbs as local development, so CI cannot drift from `make verify`.
+name: verify
+on:
+  push:
+  pull_request:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: package.json
+      - run: make setup
+      # Linux runners lack the system libraries Chromium and WebKit need; Playwright installs them with apt.
+      - run: bunx playwright install --with-deps chromium webkit
+      - run: make verify
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: e2e-report
+          path: output/e2e/
+          retention-days: 14

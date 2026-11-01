@@ -1,0 +1,160 @@
+/* Page layout and the playground's own composition, adapted from the defuss-lexicalsearch site. Colours, radii and
+   shadows come from defuss-shadcn tokens; nothing here redefines a component. */
+@layer components {
+  /* the base reset the defuss-shadcn docs site applies, which its Landing Page blocks assume */
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; line-height: 1.6; background: var(--background); color: var(--foreground); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+  /* component rules set display, which would otherwise beat the hidden attribute */
+  [hidden] { display: none !important; }
+  .dz-page { overflow-x: clip; }
+  .dz-main { display: flex; flex-direction: column; align-items: center; gap: clamp(5rem, 11vw, 9rem); padding-block-end: clamp(5rem, 11vw, 9rem); }
+  .dz-section { width: 100%; max-width: 76rem; padding-inline: 1rem; scroll-margin-top: 5rem; }
+  .dz-icon { width: 1em; height: 1em; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .dz-icon-fill { fill: currentColor; stroke: none; }
+  .dz-ext { width: .75em; height: .75em; margin-inline-start: .15em; vertical-align: -.05em; opacity: .75; }
+  .mk-hero-note a, .mk-footer-copy a, .dz-note a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+  .mk-hero-desc code, .mk-section-header-desc code { font-family: var(--font-mono); font-size: .9em; }
+  /* section labels as badges with an icon, in place of the plain eyebrow text */
+  .dz-eyebrow { align-self: flex-start; gap: .375rem; }
+  .mk-section-header[data-align="center"] .dz-eyebrow { align-self: center; }
+  .dz-hero-pill a { color: inherit; text-decoration: none; }
+  .dz-hero-pill > a:last-child { display: inline-flex; align-items: center; gap: .5rem; }
+  .dz-hero-pill > a:last-child:hover { text-decoration: underline; text-underline-offset: 2px; }
+  .dz-npm-tag .badge, .mk-header-sheet-actions .badge { margin-inline-start: .125rem; }
+  a.badge { text-decoration: none; }
+  .dz-flip { margin: 0; font-size: clamp(1.5rem, 4.5vw, 2.5rem); font-weight: 700; letter-spacing: -.03em; line-height: 1.15; }
+  .dz-accent { background: linear-gradient(90deg, var(--chart-1), var(--chart-3)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+  /* the hero's six points: a grid of muted prose under the call to action */
+  .dz-intro { display: grid; gap: 2rem 2.25rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+    width: 100%; max-width: 64rem; margin: clamp(5.5rem, 13vw, 10rem) auto 0; padding-inline: 1.25rem; text-align: start; }
+  .dz-intro-item { display: flex; flex-direction: column; gap: .5rem; }
+  .dz-intro-icon { display: grid; place-items: center; width: 4.5rem; height: 4.5rem; border-radius: var(--radius-xl); font-size: 2.25rem;
+    color: var(--foreground); background: color-mix(in oklch, var(--chart-2) 22%, transparent); box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--chart-2) 35%, transparent); }
+  .dz-intro h3 { margin: .25rem 0 0; font-size: .9375rem; font-weight: 600; }
+  .dz-intro p { margin: 0; font-size: .8125rem; line-height: 1.6; color: var(--muted-foreground); text-wrap: pretty; }
+  .dz-intro code { font-family: var(--font-mono); font-size: .9em; }
+
+  /* playground: editor beside the output on wide screens, stacked on narrow ones */
+  .dz-window {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.5rem; margin-block-start: 2.5rem;
+    padding: clamp(.75rem, 2.5vw, 1.5rem); background-color: var(--card); border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-2xl), 0 30px 80px -30px color-mix(in oklch, var(--chart-2) 45%, transparent);
+  }
+  @media (max-width: 56rem) { .dz-window { grid-template-columns: minmax(0, 1fr); } }
+  .dz-pane { display: flex; flex-direction: column; gap: .75rem; min-width: 0; }
+  .dz-pane-head { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; min-height: 2.25rem; }
+  .dz-pane-head .select { flex: 1 1 12rem; width: auto; }
+  /* the editor: a transparent textarea over a highlighted layer; both boxes must match to the pixel, so every metric
+     that moves a glyph is set here, on both, with a selector that outranks the component's own .textarea rules */
+  .dz-editor-wrap { position: relative; }
+  .dz-editor-wrap .dz-editor, .dz-editor-wrap .dz-editor-layer {
+    box-sizing: border-box; margin: 0; padding: .75rem .875rem; border: 1px solid transparent; border-radius: var(--radius-md);
+    font-family: var(--font-mono); font-size: .8125rem; font-weight: 400; line-height: 1.55; letter-spacing: normal;
+    word-spacing: normal; tab-size: 2; white-space: pre; text-align: start; text-indent: 0; text-transform: none;
+  }
+  .dz-editor-wrap .dz-editor { display: block; width: 100%; min-height: 30rem; border-color: var(--input); overflow: auto; resize: vertical; }
+  .dz-editor-wrap .dz-editor-layer { position: absolute; inset: 0; overflow: hidden; pointer-events: none; background: transparent; color: var(--foreground); }
+  .dz-editor-layer code { font: inherit; }
+  /* only once the script paints the layer: without script the textarea shows its own text */
+  .dz-editor-wrap[data-highlight] .dz-editor { color: transparent; -webkit-text-fill-color: transparent; caret-color: var(--foreground); }
+  .dz-editor-wrap:not([data-highlight]) .dz-editor-layer { display: none; }
+
+  /* Shiki tokens carry --shiki-light and --shiki-dark; the page mode picks one. defuss-shadcn code blocks stay dark in
+     both modes, so their tokens always take the dark theme. */
+  [data-shiki] span[style] { color: var(--shiki-light); font-style: var(--shiki-light-font-style, inherit); font-weight: var(--shiki-light-font-weight, inherit); }
+  .dark [data-shiki] span[style], .mk-code-block [data-shiki] span[style] { color: var(--shiki-dark); font-style: var(--shiki-dark-font-style, inherit); font-weight: var(--shiki-dark-font-weight, inherit); }
+  .dz-hint { margin: 0; font-size: .75rem; color: var(--muted-foreground); }
+  .dz-hint code { font-family: var(--font-mono); }
+  .dz-sizes { font-size: .75rem; font-family: var(--font-mono); color: var(--muted-foreground); }
+  .dz-tabs .tab-list { max-width: 100%; overflow-x: auto; }
+  .dz-out { margin: 0; height: 30rem; overflow: auto; padding: .875rem 1rem; font-family: var(--font-mono); font-size: .8125rem; line-height: 1.55;
+    white-space: pre-wrap; overflow-wrap: anywhere; border: 1px solid var(--border); border-radius: var(--radius-lg); background: color-mix(in oklch, var(--muted) 45%, transparent); }
+  .dz-out:empty::before { content: "(nothing printed)"; color: var(--muted-foreground); }
+  div.dz-out { padding: 0; white-space: normal; }
+  .dz-out .table-cell { font-family: var(--font-mono); font-size: .75rem; vertical-align: top; }
+  .dz-index { width: 3rem; color: var(--muted-foreground); }
+  .dz-tag { white-space: nowrap; }
+  .dz-payload { overflow-wrap: anywhere; }
+
+  /* JSON vs DSON */
+  .dz-compare { margin-block-start: 2rem; }
+  .dz-compare .table-cell { vertical-align: middle; }
+  .dz-compare td code { font-family: var(--font-mono); font-size: .8125rem; overflow-wrap: anywhere; }
+  .dz-compare .badge { min-width: 3.25rem; justify-content: center; }
+
+  /* how it works */
+  .dz-steps { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); margin: 2rem 0; padding: 0; list-style: none; }
+  .dz-steps .card-content p { margin: 0; font-size: .875rem; color: var(--muted-foreground); }
+  .dz-step-head { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: .25rem .75rem; }
+  .dz-step-head .badge { justify-self: start; }
+  .dz-step-head .card-title { grid-column: 2; }
+  .dz-step-icon { grid-row: span 2; display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: var(--radius-lg); font-size: 1.375rem;
+    background: color-mix(in oklch, var(--chart-2) 22%, transparent); box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--chart-2) 35%, transparent); }
+  /* the animated pipeline above the step cards */
+  .dz-flow { margin-block: 2rem 1rem; }
+  /* phones: the four-column pipeline becomes a two-column zigzag. The nodes carry their desktop grid cells inline,
+     so these overrides need !important; the component redraws the wires from the measured layout. */
+  @media (max-width: 40rem) {
+    .dz-flow .diagram-canvas { --cols: 2 !important; }
+    .dz-flow [data-node="value"] { --col: 1 !important; --row: 1 !important; }
+    .dz-flow [data-node="walk"] { --col: 2 !important; --row: 1 !important; }
+    .dz-flow [data-node="tag"] { --col: 2 !important; --row: 2 !important; }
+    .dz-flow [data-node="text"] { --col: 1 !important; --row: 2 !important; }
+    .dz-flow [data-node="check"] { --col: 1 !important; --row: 3 !important; }
+    .dz-flow [data-node="rebuild"] { --col: 2 !important; --row: 3 !important; }
+    .dz-flow [data-node="error"] { --col: 1 !important; --row: 4 !important; }
+    .dz-flow [data-node="same"] { --col: 2 !important; --row: 4 !important; }
+  }
+  .dz-steps code, .dz-note code, .mk-faq-answer code { font-family: var(--font-mono); font-size: .875em; }
+  .dz-note { margin: 1rem 0 2rem; font-size: .875rem; color: var(--muted-foreground); }
+  /* Benchmarks: numbers align on the right with equal digit widths, so rows compare at a glance */
+  .dz-num { text-align: end; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .dz-bench { margin-block-start: 2rem; }
+  .dz-bench .table-container { overflow-x: auto; }
+  .dz-subtitle { margin: 3rem 0 1.5rem; font-size: 1.25rem; font-weight: 600; }
+  .dz-bench .dz-group th { font-weight: 600; background: var(--muted); }
+  /* two rings per row on a phone instead of one: the rings block's own minimum is 11rem */
+  .dz-coverage .mk-stats-rings { grid-template-columns: repeat(auto-fit, minmax(min(100%, 8rem), 1fr)); }
+  @media (max-width: 40rem) {
+    .dz-bench .table-head, .dz-bench .table-cell { padding-inline: .5rem; }
+    .dz-tab-version { display: none; }
+  }
+  .mk-code-block pre > code > span { white-space: pre-wrap; overflow-wrap: anywhere; }
+
+  /* "Use it": one leaf-cornered panel on a faint dot pattern, two ways side by side */
+  .dz-use {
+    --shape-round: 3rem; --shape-ink: color-mix(in oklch, var(--foreground) 9%, transparent); --shape-pattern: 18px;
+    padding: clamp(1.5rem, 4vw, 3rem); border: 1px solid var(--border);
+    background-color: color-mix(in oklch, var(--card) 75%, transparent);
+    box-shadow: var(--shadow-xl), 0 30px 80px -40px color-mix(in oklch, var(--chart-2) 45%, transparent);
+  }
+  .dz-ways { display: flex; gap: 2.5rem; margin-block-start: 2.5rem; }
+  .dz-way { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 1.25rem; }
+  .dz-way-title { display: flex; align-items: center; gap: .5rem; margin: 0; font-size: 1.25rem; font-weight: 600; }
+  .dz-way-desc { margin: 0; color: var(--muted-foreground); }
+  .dz-way .mk-code-block { margin: 0; }
+  .dz-sep-horizontal { display: none; }
+  @media (max-width: 56rem) {
+    .dz-ways { flex-direction: column; }
+    .dz-sep-vertical { display: none; }
+    .dz-sep-horizontal { display: block; width: 100%; margin: 0; }
+  }
+  .dz-prompt { position: relative; }
+  .dz-prompt .mockup-code { margin: 0; }
+  .dz-prompt-copy { position: absolute; inset-block-start: .3rem; inset-inline-end: .5rem; }
+
+  /* footer: the consulting panel is the widest column on large screens */
+  @media (min-width: 64rem) { .dz-footer-nav.mk-footer-nav { grid-template-columns: 1fr 1fr 1.6fr; } }
+  .dz-ad {
+    --shape-round: 2rem; display: flex; flex-direction: column; gap: .875rem; padding: 1.25rem;
+    border: 1px solid var(--border); box-shadow: var(--shadow-lg);
+    background: linear-gradient(135deg, color-mix(in oklch, var(--chart-1) 16%, var(--card)), var(--card) 65%);
+  }
+  .dz-ad-head { display: flex; align-items: center; gap: .875rem; }
+  .dz-ad-portrait { width: 5.5rem; flex: none; }
+  .dz-ad-portrait img { display: block; width: 100%; height: auto; }
+  .dz-ad-name { margin: 0; font-size: 1.25rem; font-weight: 600; color: var(--foreground); }
+  .dz-ad-role { margin: 0; font-size: .8125rem; line-height: 1.5; color: var(--muted-foreground); }
+  .dz-ad .btn { align-self: flex-start; }
+}

@@ -1,0 +1,298 @@
+{
+  "chromium": {
+    "runtime": "chromium",
+    "version": "153.0.8010.12",
+    "cpu": "Apple M5 Max",
+    "platform": "darwin arm64",
+    "date": "2026-11-01",
+    "lib": {
+      "version": "1.2.0",
+      "sha256": "b154c61c330b104adfd47fa2ec4b9c9cb3bb12352bc2ea978428e8d114c663ff"
+    },
+    "rounds": 20,
+    "users": 2000,
+    "operations": 8,
+    "bytes": {
+      "typed": 367895,
+      "plain": 257812,
+      "plainDson": 391223
+    },
+    "memory": "peak RSS of the page's process, sampled with ps during the runs",
+    "baselineRssMB": {
+      "typed": 96,
+      "plain": 99
+    },
+    "results": [
+      {
+        "graph": "typed",
+        "operation": "DSON.stringify",
+        "medianMs": 3.8,
+        "peakRssMB": 156
+      },
+      {
+        "graph": "typed",
+        "operation": "DSON.parse",
+        "medianMs": 2.68,
+        "peakRssMB": 135
+      },
+      {
+        "graph": "typed",
+        "operation": "DSON.isEqual",
+        "medianMs": 6.77,
+        "peakRssMB": 150
+      },
+      {
+        "graph": "typed",
+        "operation": "DSON.clone",
+        "medianMs": 1.48,
+        "peakRssMB": 116
+      },
+      {
+        "graph": "plain",
+        "operation": "JSON.stringify",
+        "medianMs": 0.74,
+        "peakRssMB": 101
+      },
+      {
+        "graph": "plain",
+        "operation": "DSON.stringify",
+        "medianMs": 2.02,
+        "peakRssMB": 151
+      },
+      {
+        "graph": "plain",
+        "operation": "JSON.parse",
+        "medianMs": 0.27,
+        "peakRssMB": 102
+      },
+      {
+        "graph": "plain",
+        "operation": "DSON.parse",
+        "medianMs": 2.57,
+        "peakRssMB": 144
+      }
+    ]
+  },
+  "bun": {
+    "runtime": "bun",
+    "version": "1.4.3",
+    "cpu": "Apple M5 Max",
+    "platform": "darwin arm64",
+    "date": "2026-11-01",
+    "lib": {
+      "version": "1.2.0",
+      "sha256": "b154c61c330b104adfd47fa2ec4b9c9cb3bb12352bc2ea978428e8d114c663ff"
+    },
+    "rounds": 20,
+    "users": 2000,
+    "operations": 8,
+    "bytes": {
+      "typed": 367895,
+      "plain": 257812,
+      "plainDson": 391223
+    },
+    "memory": "peak RSS of a fresh process (maxRSS)",
+    "baselineRssMB": {
+      "typed": 13,
+      "plain": 13
+    },
+    "results": [
+      {
+        "graph": "typed",
+        "operation": "DSON.stringify",
+        "medianMs": 4.37,
+        "peakRssMB": 64
+      },
+      {
+        "graph": "typed",
+        "operation": "DSON.parse",
+        "medianMs": 3.93,
+        "peakRssMB": 63
+      },
+      {
+        "graph": "typed",
+        "operation": "DSON.isEqual",
+        "medianMs": 11.71,
+        "peakRssMB": 85
+      },
+      {
+        "graph": "typed",
+        "operation": "DSON.clone",
+        "medianMs": 3.05,
+        "peakRssMB": 27
+      },
+      {
+        "graph": "plain",
+        "operation": "JSON.stringify",
+        "medianMs": 1.01,
+        "peakRssMB": 19
+      },
+      {
+        "graph": "plain",
+        "operation": "DSON.stringify",
+        "medianMs": 3.89,
+        "peakRssMB": 53
+      },
+      {
+        "graph": "plain",
+        "operation": "JSON.parse",
+        "medianMs": 0.7,
+        "peakRssMB": 20
+      },
+      {
+        "graph": "plain",
+        "operation": "DSON.parse",
+        "medianMs": 4.52,
+        "peakRssMB": 56
+      }
+    ]
+  },
+  "webkit": {
+    "runtime": "webkit",
+    "version": "26.6",
+    "cpu": "Apple M5 Max",
+    "platform": "darwin arm64",
+    "date": "2026-11-01",
+    "lib": {
+      "version": "1.2.0",
+      "sha256": "b154c61c330b104adfd47fa2ec4b9c9cb3bb12352bc2ea978428e8d114c663ff"
+    },
+    "rounds": 20,
+    "users": 2000,
+    "operations": 8,
+    "bytes": {
+      "typed": 367895,
+      "plain": 257812,
+      "plainDson": 391223
+    },
+    "memory": "peak RSS of the page's process, sampled with ps during the runs",
+    "baselineRssMB": {
+      "typed": 99,
+      "plain": 101
+    },
+    "results": [
+      {
+        "graph": "typed",
+        "operation": "DSON.stringify",
+        "medianMs": 4,
+        "peakRssMB": 197
+      },
+      {
+        "graph": "typed",
+        "operation": "DSON.parse",
+        "medianMs": 3.25,
+        "peakRssMB": 157
+      },
+      {
+        "graph": "typed",
+        "operation": "DSON.isEqual",
+        "medianMs": 5,
+        "peakRssMB": 330
+      },
+      {
+        "graph": "typed",
+        "operation": "DSON.clone",
+        "medianMs": 2.5,
+        "peakRssMB": 133
+      },
+      {
+        "graph": "plain",
+        "operation": "JSON.stringify",
+        "medianMs": 0.8,
+        "peakRssMB": 104
+      },
+      {
+        "graph": "plain",
+        "operation": "DSON.stringify",
+        "medianMs": 2.2,
+        "peakRssMB": 182
+      },
+      {
+        "graph": "plain",
+        "operation": "JSON.parse",
+        "medianMs": 0.55,
+        "peakRssMB": 112
+      },
+      {
+        "graph": "plain",
+        "operation": "DSON.parse",
+        "medianMs": 2.5,
+        "peakRssMB": 158
+      }
+    ]
+  },
+  "node": {
+    "runtime": "node",
+    "version": "26.11.1",
+    "cpu": "Apple M5 Max",
+    "platform": "darwin arm64",
+    "date": "2026-11-01",
+    "lib": {
+      "version": "1.2.0",
+      "sha256": "b154c61c330b104adfd47fa2ec4b9c9cb3bb12352bc2ea978428e8d114c663ff"
+    },
+    "rounds": 20,
+    "users": 2000,
+    "operations": 8,
+    "bytes": {
+      "typed": 367895,
+      "plain": 257812,
+      "plainDson": 391223
+    },
+    "memory": "peak RSS of a fresh process (maxRSS)",
+    "baselineRssMB": {
+      "typed": 58,
+      "plain": 57
+    },
+    "results": [
+      {
+        "graph": "typed",
+        "operation": "DSON.stringify",
+        "medianMs": 9.3,
+        "peakRssMB": 129
+      },
+      {
+        "graph": "typed",
+        "operation": "DSON.parse",
+        "medianMs": 5.51,
+        "peakRssMB": 106
+      },
+      {
+        "graph": "typed",
+        "operation": "DSON.isEqual",
+        "medianMs": 13.5,
+        "peakRssMB": 187
+      },
+      {
+        "graph": "typed",
+        "operation": "DSON.clone",
+        "medianMs": 1.89,
+        "peakRssMB": 73
+      },
+      {
+        "graph": "plain",
+        "operation": "JSON.stringify",
+        "medianMs": 1.13,
+        "peakRssMB": 64
+      },
+      {
+        "graph": "plain",
+        "operation": "DSON.stringify",
+        "medianMs": 4.42,
+        "peakRssMB": 146
+      },
+      {
+        "graph": "plain",
+        "operation": "JSON.parse",
+        "medianMs": 0.83,
+        "peakRssMB": 60
+      },
+      {
+        "graph": "plain",
+        "operation": "DSON.parse",
+        "medianMs": 4.93,
+        "peakRssMB": 110
+      }
+    ]
+  }
+}

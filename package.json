@@ -1,0 +1,78 @@
+{
+  "name": "defuss-dson",
+  "version": "1.2.0",
+  "type": "module",
+  "description": "Typed JSON for JavaScript: Map, Set, Date, RegExp, BigInt, typed arrays, undefined, NaN and circular references survive a trip through JSON text.",
+  "license": "MIT",
+  "author": "Aron Homberg <info@aron-homberg.de>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kyr0/defuss-dson.git"
+  },
+  "homepage": "https://dson.defuss.org",
+  "bugs": {
+    "url": "https://github.com/kyr0/defuss-dson/issues"
+  },
+  "keywords": [
+    "defuss",
+    "dson",
+    "json",
+    "serialization",
+    "deserialization",
+    "superset",
+    "map",
+    "set",
+    "bigint",
+    "circular",
+    "structured-clone",
+    "deep-equal"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "packageManager": "bun@1.4.3",
+  "sideEffects": false,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.cts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "jsdelivr": "dist/index.mjs",
+  "unpkg": "dist/index.mjs",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": "^18.17.1 || ^20.3.0 || >=21.0.0"
+  },
+  "scripts": {
+    "build": "pkgroll --clean-dist",
+    "lint": "oxlint --deny-warnings && tsc --noEmit -p tsconfig.json && tsc --noEmit -p e2e/tsconfig.json",
+    "test": "vitest run",
+    "coverage": "vitest run --coverage",
+    "e2e": "node scripts/e2e.mjs",
+    "site": "node scripts/site.mjs",
+    "serve": "node scripts/server.mjs",
+    "prepublishOnly": "make verify"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "@types/node": "24.10.0",
+    "@vitest/coverage-v8": "4.1.12",
+    "oxlint": "1.90.0",
+    "pkgroll": "2.29.0",
+    "shiki": "4.5.0",
+    "typescript": "5.9.3",
+    "vitest": "4.1.12"
+  }
+}

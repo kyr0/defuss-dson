@@ -1,0 +1,13 @@
+.env
+var/*
+tmp/*
+output/*
+input/*
+.DS_Store
+dist/
+.vae/SWARM_STATUS.yaml
+node_modules/
+coverage/
+.cache/
+.claude/settings.local.json
+__pycache__/

@@ -1,0 +1,7 @@
+#!/bin/sh
+# Rejects commit messages that credit an AI assistant as co-author: this repository's history names human authors
+# only. Installed by `make setup` (git config core.hooksPath .githooks); .vae/VERIFY.py checks the whole history too.
+if grep -qiE '^[[:space:]]*co-authored-by:.*(claude|anthropic|noreply@anthropic\.com)' "$1"; then
+  echo "commit-msg: remove the 'Co-Authored-By: Claude' trailer; AI assistants are never co-authors here" >&2
+  exit 1
+fi
