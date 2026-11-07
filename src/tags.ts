@@ -42,3 +42,23 @@ export const NUMBER = 9;
 
 /** One entry of the serialized record list. */
 export type SerializedRecord = [tag: number | string, payload: any];
+
+/** Binary v1 tags. Separate payload grammar; never valid in the text record format. */
+export const B_NULL = 10;
+export const B_UNDEFINED = 11;
+export const B_FALSE = 12;
+export const B_TRUE = 13;
+export const B_STRING = 14;
+export const B_FLOAT64 = 15;
+export const B_BIGINT = 16;
+export const B_ARRAY = 17;
+export const B_OBJECT = 18;
+export const B_NULL_OBJECT = 19;
+export const B_DATE = 20;
+export const B_REGEXP = 21;
+export const B_MAP = 22;
+export const B_SET = 23;
+export const B_ERROR = 24;
+export const B_BUFFER = 25;
+export const B_VIEW = 26;
+export const B_BOX = 27;

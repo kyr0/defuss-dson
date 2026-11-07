@@ -20,7 +20,7 @@ describe("published examples", () => {
     const count = (prefix: string) => examples.filter((example) => example.name.startsWith(prefix)).length;
     expect(count("README.md#")).toBeGreaterThanOrEqual(6);
     expect(count("documentation/format.md#")).toBeGreaterThanOrEqual(2);
-    expect(count("docs/index.html#")).toBe(3);
+    expect(count("docs/index.html#")).toBe(5);
     expect(count("preset:")).toBe(10);
     for (const example of examples) expect(example.expected.length, `${example.name} states no output`).toBeGreaterThan(0);
   });

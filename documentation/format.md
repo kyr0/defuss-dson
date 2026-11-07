@@ -1,6 +1,6 @@
 # DSON format
 
-This page specifies the text `DSON.stringify` writes and `DSON.parse` reads, for anyone who writes a reader in another language, debugs a payload or reviews the trust model. VERIFIED: it describes defuss-dson 1.2.0; tags -1 to 8 are unchanged since 1.0.
+This page specifies the text `DSON.stringify` writes and `DSON.parse` reads, for anyone who writes a reader in another language, debugs a payload or reviews the trust model. VERIFIED: it describes defuss-dson 1.3.0; tags -1 to 8 are unchanged since 1.0.
 
 ## Shape
 
@@ -91,6 +91,31 @@ Any other malformed record list, such as a missing record or a payload of the wr
 
 ## Compatibility
 
-- **Reading old text:** 1.2.0 reads all text written by 1.0 and 1.1. A VOID record now decodes to `undefined` as its tag says; 1.1 returned the `null` that JSON had written in its place.
+- **Reading old text:** 1.3.0 reads all text written by 1.0, 1.1 and 1.2. A VOID record decodes to `undefined` as its tag says; 1.1 returned the `null` that JSON had written in its place.
 - **Writing for old readers:** text written by 1.2.0 is readable by 1.0 and 1.1 unless it contains tag 9 (`NaN`, `±Infinity` or `-0` outside typed arrays). Such a reader throws on tag 9 instead of guessing a value.
 - **Equality:** `DSON.isEqual` compares DSON text with `-0` written as `0`, so it follows the rules on this page except that `0` and `-0` compare equal.
+
+## Binary v1 tags
+
+VERIFIED: the optional `defuss-dson/binary` entry has a separate byte grammar, specified in [Binary values and sequences](binary.md). These appended tags never occur in DSON text; tags -1 through 9 and the text API are unchanged.
+
+| Tag | Name | Binary payload |
+| ---: | --- | --- |
+| 10 | B_NULL | none |
+| 11 | B_UNDEFINED | none |
+| 12 | B_FALSE | none |
+| 13 | B_TRUE | none |
+| 14 | B_STRING | UTF-16LE string |
+| 15 | B_FLOAT64 | IEEE-754 float64 LE |
+| 16 | B_BIGINT | canonical decimal string |
+| 17 | B_ARRAY | array length, property pairs |
+| 18 | B_OBJECT | property pairs |
+| 19 | B_NULL_OBJECT | property pairs; null prototype |
+| 20 | B_DATE | milliseconds as float64 LE |
+| 21 | B_REGEXP | source, flags, lastIndex |
+| 22 | B_MAP | reference list, alternating key and value |
+| 23 | B_SET | reference list |
+| 24 | B_ERROR | subtype, name, message, property pairs |
+| 25 | B_BUFFER | byte length and raw bytes |
+| 26 | B_VIEW | subtype, byte order, byte offset, byte length, buffer reference |
+| 27 | B_BOX | subtype and primitive reference |

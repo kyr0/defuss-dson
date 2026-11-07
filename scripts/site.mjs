@@ -70,6 +70,22 @@ async function benchData(publish, build) {
   return { data, stale };
 }
 
+/** Optional-codec results carry every entry hash, so root-entry stability cannot hide stale binary measurements. */
+async function binaryBenchData(publish) {
+  const hashes = {};
+  for (const name of ['index', 'binary', 'sequence']) hashes[name] = sha256(await readFile(at(`dist/${name}.mjs`)));
+  const matches = (run) => run && Object.entries(hashes).every(([name, hash]) => run.hashes?.[name] === hash);
+  const fresh = [];
+  for (const runtime of Object.keys(RUNTIMES)) {
+    const path = `output/bench/binary-${runtime}.json`;
+    if (publish && await exists(path)) fresh.push(await readJson(path));
+  }
+  const data = fresh.length === Object.keys(RUNTIMES).length && fresh.every(matches)
+    ? Object.fromEntries(fresh.map(run => [run.runtime, run]))
+    : await readJson('docs/data/binary-bench.json').catch(() => ({}));
+  return { data, stale: Object.keys(RUNTIMES).filter(runtime => !matches(data[runtime])) };
+}
+
 /**
  * The coverage figures, from the last `make coverage` when it ran (coverage/ is local), else the committed copy.
  * Unlike the benchmark they are deterministic, so the check compares them as well: a new test without `make docs`
@@ -191,10 +207,12 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const check = process.argv.includes('--check');
   const manifest = await measure();
   const bench = await benchData(!check, sha256(await readFile(at('dist/index.mjs'))));
+  const binaryBench = await binaryBenchData(!check);
   const pages = await render(manifest, bench.data, await coverageData());
-  if (bench.stale.length) {
+  pages.set('docs/data/binary-bench.json', `${JSON.stringify(binaryBench.data, null, 2)}\n`);
+  if (bench.stale.length || binaryBench.stale.length) {
     const level = check ? 'ERROR' : 'WARN';
-    console.error(`${new Date().toISOString()} ${level} benchmark figures measured another build runtimes=${bench.stale.join(',')} fix="make bench && make docs"`);
+    console.error(`${new Date().toISOString()} ${level} benchmark figures measured another build runtimes=${bench.stale.join(',')} binary_runtimes=${binaryBench.stale.join(',')} fix="make bench && make docs"`);
     if (check) process.exit(1);
   }
   if (check) {

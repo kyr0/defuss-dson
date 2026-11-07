@@ -45,7 +45,7 @@ console.log(back.self === back); // true
 
 ```html
 <script type="module">
-  import { DSON } from "https://cdn.jsdelivr.net/npm/defuss-dson@1.2.0/dist/index.mjs";
+  import { DSON } from "https://cdn.jsdelivr.net/npm/defuss-dson@1.3.0/dist/index.mjs";
 
   const text = DSON.stringify({ seen: new Set(["home"]) });
   console.log(DSON.parse(text).seen.has("home")); // true
@@ -138,6 +138,24 @@ try {
 }
 console.log(DSON.stringify(list, { maxDepth: 200_000 }).startsWith("[[2,")); // true
 ```
+
+### Optional binary storage APIs
+
+VERIFIED: `defuss-dson/binary` exports strict `encode` and `decode` functions. `defuss-dson/sequence` exports `encodeFrame`, `inspectFrame`, `decodeFrame` and `SequenceDecoder` for independent checksummed records, incremental input and byte-offset metadata. The root text API remains compatible. Binary encoding rejects unsupported values instead of calling `toJSON` or dropping them.
+
+```js
+import { encode, decode } from "defuss-dson/binary";
+import { encodeFrame, SequenceDecoder } from "defuss-dson/sequence";
+
+const bytes = encode({ id: 1n, data: new Uint8Array([0, 10, 255]) });
+console.log(decode(bytes).data[1]); // 10
+const decoder = new SequenceDecoder();
+const records = decoder.push(encodeFrame({ id: "first" }));
+decoder.finish();
+console.log(records[0].value.id, records[0].offset, records[0].index); // first 0 0
+```
+
+The [binary API and wire specification](documentation/binary.md) covers supported types, limits, byte order, truncation and lookup by recorded offset. Persistent indexes and database recovery belong to `defuss-dbsonl`.
 
 ## What survives a round trip
 
@@ -235,7 +253,7 @@ If you use defuss-dson in research or want to reference it, cite it as:
   affiliation  = {Independent Researcher},
   title        = {defuss-dson: typed JSON serialization for JavaScript},
   year         = {2026},
-  version      = {1.2.0},
+  version      = {1.3.0},
   howpublished = {\url{https://github.com/kyr0/defuss-dson}},
   note         = {Serialization module of the defuss runtime, MIT License}
 }

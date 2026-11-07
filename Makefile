@@ -55,6 +55,9 @@ bench: build ## median time and peak RSS per operation on Node.js, Bun, Chromium
 	node scripts/bench.mjs
 	bun scripts/bench.mjs
 	node scripts/bench-browser.mjs
+	node --expose-gc scripts/bench-binary.mjs
+	bun scripts/bench-binary.mjs
+	node scripts/bench-binary-browser.mjs
 
 clean: ## remove build, coverage and test output
 	rm -rf dist coverage output tmp/e2e

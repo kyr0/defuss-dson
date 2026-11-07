@@ -51,6 +51,7 @@ const report = {
   passed: [
     'tarball holds only package.json, README.md, LICENSE and dist/',
     'type matrix via ESM and CommonJS on Node.js and Bun',
+    'binary and framed sequence matrix through both subpaths on Node.js, Bun, Chromium and WebKit',
     'type declarations under nodenext (ESM and CJS consumers)',
     'every README, documentation, website and playground example on Node.js and Bun',
     'type matrix and every example in Chromium and WebKit',

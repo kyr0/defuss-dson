@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.0
+
+- VERIFIED: add optional `defuss-dson/binary` and `defuss-dson/sequence` entry points for strict binary values and independently checksummed frames, incremental decoding, bounded input and offset metadata.
+- VERIFIED: append binary-only wire tags 10 through 27. Binary value v1 uses `DSB` plus version 1; sequence frames use `DSQ` plus version 1. These formats are separate from text DSON; text tags and `stringify`/`parse` behavior remain unchanged. Older packages do not expose the optional entries and cannot read these binary formats.
+- VERIFIED: raw buffers and view aliases, sparse arrays, null prototypes, Error causes and aggregate errors round-trip. Unsupported values fail explicitly. Persistent indexes, recovery, compression and field-level access are outside this milestone.
+- VERIFIED: build each public entry independently to preserve the standalone root CDN module. Add packed-consumer checks across Node.js, Bun, Chromium and WebKit, and separate binary size, throughput, allocation and indexed-lookup measurements.
+- VERIFIED: add a website section for binary values and framed sequences, with runnable examples, offset lookup, API links and benchmark results.
+
 ## 1.2.0
 
 Wire format:

@@ -122,6 +122,13 @@
   }
   .mk-code-block pre > code > span { white-space: pre-wrap; overflow-wrap: anywhere; }
 
+  /* The binary contracts stay readable above the two examples, including on narrow screens. */
+  .dz-binary-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: 1.5rem; margin: 2rem 0 0; }
+  .dz-binary-facts > div { border-block-start: 2px solid var(--border); padding-block-start: 1rem; }
+  .dz-binary-facts dt { font-weight: 600; }
+  .dz-binary-facts dd { margin: .5rem 0 0; font-size: .875rem; color: var(--muted-foreground); }
+  .dz-binary-facts code, #binary .dz-way-desc code { font-family: var(--font-mono); font-size: .9em; overflow-wrap: anywhere; }
+
   /* "Use it": one leaf-cornered panel on a faint dot pattern, two ways side by side */
   .dz-use {
     --shape-round: 3rem; --shape-ink: color-mix(in oklch, var(--foreground) 9%, transparent); --shape-pattern: 18px;

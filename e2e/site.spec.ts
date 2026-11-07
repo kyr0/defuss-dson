@@ -13,6 +13,7 @@ const bench = JSON.parse(await readFile(new URL("docs/data/bench.json", root), "
 const coverage = JSON.parse(await readFile(new URL("docs/data/coverage.json", root), "utf8"));
 const examples = await collectExamples();
 const matrix = await readFile(new URL("e2e/fixtures/matrix.mjs", root), "utf8");
+const binaryMatrix = await readFile(new URL("e2e/fixtures/binary-matrix.mjs", root), "utf8");
 
 const watch = (page: Page) => {
   const errors: string[] = [];
@@ -32,7 +33,11 @@ async function runModule(page: Page, code: string): Promise<string[]> {
   return page.evaluate(async (source) => {
     const map = document.createElement("script");
     map.type = "importmap";
-    map.textContent = JSON.stringify({ imports: { "defuss-dson": new URL("/assets/lib/defuss-dson.mjs", location.href).href } });
+    map.textContent = JSON.stringify({ imports: {
+      "defuss-dson": new URL("/assets/lib/defuss-dson.mjs", location.href).href,
+      "defuss-dson/binary": new URL("/__package__/binary.mjs", location.href).href,
+      "defuss-dson/sequence": new URL("/__package__/sequence.mjs", location.href).href,
+    } });
     document.head.append(map);
     const lines: string[] = [];
     const format = (value: unknown) =>
@@ -49,6 +54,13 @@ async function runModule(page: Page, code: string): Promise<string[]> {
 }
 
 test.describe("library in the browser", () => {
+  test("passes the binary and sequence matrix from the packed subpaths", async ({ page }) => {
+    const errors = watch(page);
+    const lines = await runModule(page, binaryMatrix);
+    expect(lines).toHaveLength(1);
+    expect(lines[0]).toMatch(/^binary matrix ok: \d+ checks$/);
+    expect(errors).toEqual([]);
+  });
   test("passes the type matrix", async ({ page }) => {
     const errors = watch(page);
     const lines = await runModule(page, matrix);
@@ -82,7 +94,7 @@ test.describe("website", () => {
 
   test("has one h1, every section, and figures that match the build", async ({ page }) => {
     await expect(page.locator("h1")).toHaveCount(1);
-    for (const id of ["intro", "playground", "compare", "how", "faq", "numbers", "use"]) await expect(page.locator(`#${id}`)).toHaveCount(1);
+    for (const id of ["intro", "playground", "compare", "how", "binary", "faq", "numbers", "use"]) await expect(page.locator(`#${id}`)).toHaveCount(1);
     // every FAQ card shows its question and its answer, with no disclosure widget to open
     const faq = page.locator("#faq .mk-faq-item");
     await expect(faq).toHaveCount(7);
@@ -142,6 +154,32 @@ test.describe("website", () => {
     }
   });
 
+  test("binary section explains both entries, links their evidence and fits both themes and a phone", async ({ page }, testInfo) => {
+    await expect(page.locator("html")).toHaveAttribute("data-highlighted", "true");
+    await page.locator('.nav-menu-link[href="#binary"]').click();
+    const section = page.locator("#binary");
+    await expect(section.locator("h2")).toBeVisible();
+    await expect(section.locator("article")).toHaveCount(2);
+    await expect(section.locator("dt")).toHaveText(["Strict values", "Independent frames", "Incremental input"]);
+    await expect(section.locator('a[href$="documentation/binary.md"]')).toBeVisible();
+    const report = await page.request.get("/data/binary-bench.json");
+    expect(report.ok()).toBe(true);
+    expect(Object.keys(await report.json()).sort()).toEqual(["bun", "chromium", "node", "webkit"]);
+    for (const width of [1280, 390]) {
+      await page.setViewportSize({ width, height: 900 });
+      for (const dark of [false, true]) {
+        if (await page.locator("#theme-toggle").isChecked() !== dark) await page.locator(".swap").click();
+        await section.scrollIntoViewIfNeeded();
+        for (const article of await section.locator("article").all()) {
+          await expect(article.locator("h3")).toBeVisible();
+          expect(await article.evaluate(node => node.scrollWidth - node.clientWidth)).toBeLessThanOrEqual(1);
+        }
+        expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
+        await section.screenshot({ path: testInfo.outputPath(`binary-${width}-${dark ? "dark" : "light"}.png`), animations: "disabled" });
+      }
+    }
+  });
+
   test("playground runs every preset and prints what each states", async ({ page }) => {
     for (const example of examples.filter((entry) => entry.kind === "preset")) {
       const id = example.name.slice("preset:".length);
@@ -180,8 +218,8 @@ test.describe("website", () => {
   test("Shiki highlights every code block without changing its text", async ({ page }) => {
     await expect(page.locator("html")).toHaveAttribute("data-highlighted", "true");
     const blocks = page.locator(".mk-code-block pre > code");
-    expect(await blocks.count()).toBe(5);
-    for (let i = 0; i < 5; i++) {
+    expect(await blocks.count()).toBe(7);
+    for (let i = 0; i < 7; i++) {
       const block = blocks.nth(i);
       await expect(block.locator("xpath=..")).toHaveAttribute("data-lang", /^(javascript|html|shellscript)$/);
       await expect(block).toHaveAttribute("data-shiki", "true");
@@ -226,7 +264,7 @@ test.describe("website", () => {
   });
 
   test("How it works: badge labels, step icons and the animated diagram", async ({ page }) => {
-    await expect(page.locator(".dz-eyebrow")).toHaveCount(6);
+    await expect(page.locator(".dz-eyebrow")).toHaveCount(7);
     for (const badge of await page.locator(".dz-eyebrow").all()) await expect(badge.locator("svg")).toHaveCount(1);
     await expect(page.locator(".dz-steps .dz-step-icon svg")).toHaveCount(4);
     const flow = page.locator("#dz-flow");
@@ -265,7 +303,12 @@ test.describe("website", () => {
     await figure.locator(".mk-code-block-copy").click();
     await expect(figure.locator(".mk-code-block-status")).toHaveText("Copied");
     const copied = await page.evaluate(() => navigator.clipboard.readText());
-    expect(copied).toBe(examples.find((example) => example.name === "docs/index.html#2")!.code.trim());
+    expect(copied).toBe(await figure.locator("code").getAttribute("data-source"));
+    for (const binary of await page.locator("#binary figure.mk-code-block").all()) {
+      await binary.locator(".mk-code-block-copy").click();
+      await expect(binary.locator(".mk-code-block-status")).toHaveText("Copied");
+      expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(await binary.locator("code").getAttribute("data-source"));
+    }
     const install = page.locator("figure.mk-code-block", { hasText: "bun add defuss-dson" });
     await install.locator(".mk-code-block-copy").click();
     await expect(install.locator(".mk-code-block-status")).toHaveText("Copied");
@@ -286,7 +329,8 @@ test.describe("website", () => {
     await expect.poll(() => flow.evaluate((node) => node.scrollWidth - node.clientWidth)).toBeLessThanOrEqual(0);
     await page.locator(".mk-header-menu").click();
     await expect(page.locator("#dz-menu")).toBeVisible();
-    await page.locator('#dz-menu a[href="#compare"]').click();
+    await page.locator('#dz-menu a[href="#binary"]').click();
     await expect(page.locator("#dz-menu")).toBeHidden();
+    await expect(page.locator("#binary h2")).toBeVisible();
   });
 });

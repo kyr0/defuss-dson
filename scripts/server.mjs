@@ -1,6 +1,6 @@
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
-import { extname, resolve, sep } from 'node:path';
+import { dirname, extname, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
@@ -23,6 +23,12 @@ export async function serve({ port = 0, lib } = {}) {
       // An empty same-origin page: e2e loads example modules here, mapped to the build under test by an import map.
       if (pathname === '/__blank__') {
         response.writeHead(200, { 'content-type': types['.html'] }).end('<!doctype html><title>blank</title>');
+        return;
+      }
+      // Only the named public bundles are exposed, from the same installed tarball as the root entry.
+      if (lib && /^\/__package__\/(binary|sequence)\.mjs$/.test(pathname)) {
+        const body = await readFile(resolve(dirname(lib), pathname.split('/').at(-1)));
+        response.writeHead(200, { 'content-type': types['.mjs'], 'cache-control': 'no-store' }).end(body);
         return;
       }
       const path = pathname === '/assets/lib/defuss-dson.mjs' && lib

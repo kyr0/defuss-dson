@@ -1,6 +1,6 @@
 {
   "name": "defuss-dson",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "type": "module",
   "description": "Typed JSON for JavaScript: Map, Set, Date, RegExp, BigInt, typed arrays, undefined, NaN and circular references survive a trip through JSON text.",
   "license": "MIT",
@@ -45,6 +45,26 @@
         "types": "./dist/index.d.cts",
         "default": "./dist/index.cjs"
       }
+    },
+    "./binary": {
+      "import": {
+        "types": "./dist/binary.d.mts",
+        "default": "./dist/binary.mjs"
+      },
+      "require": {
+        "types": "./dist/binary.d.cts",
+        "default": "./dist/binary.cjs"
+      }
+    },
+    "./sequence": {
+      "import": {
+        "types": "./dist/sequence.d.mts",
+        "default": "./dist/sequence.mjs"
+      },
+      "require": {
+        "types": "./dist/sequence.d.cts",
+        "default": "./dist/sequence.cjs"
+      }
     }
   },
   "jsdelivr": "dist/index.mjs",
@@ -56,7 +76,7 @@
     "node": "^18.17.1 || ^20.3.0 || >=21.0.0"
   },
   "scripts": {
-    "build": "pkgroll --clean-dist",
+    "build": "node scripts/build.mjs",
     "lint": "oxlint --deny-warnings && tsc --noEmit -p tsconfig.json && tsc --noEmit -p e2e/tsconfig.json",
     "test": "vitest run",
     "coverage": "vitest run --coverage",
