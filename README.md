@@ -45,7 +45,7 @@ console.log(back.self === back); // true
 
 ```html
 <script type="module">
-  import { DSON } from "https://cdn.jsdelivr.net/npm/defuss-dson@1.3.0/dist/index.mjs";
+  import { DSON } from "https://cdn.jsdelivr.net/npm/defuss-dson@1.4.0/dist/index.mjs";
 
   const text = DSON.stringify({ seen: new Set(["home"]) });
   console.log(DSON.parse(text).seen.has("home")); // true
@@ -141,7 +141,7 @@ console.log(DSON.stringify(list, { maxDepth: 200_000 }).startsWith("[[2,")); // 
 
 ### Optional binary storage APIs
 
-VERIFIED: `defuss-dson/binary` exports strict `encode` and `decode` functions. `defuss-dson/sequence` exports `encodeFrame`, `inspectFrame`, `decodeFrame` and `SequenceDecoder` for independent checksummed records, incremental input and byte-offset metadata. The root text API remains compatible. Binary encoding rejects unsupported values instead of calling `toJSON` or dropping them.
+VERIFIED: `defuss-dson/binary` exports strict `encode` and `decode` functions. `defuss-dson/sequence` exports `encodeFrame`, `inspectFrame`, `decodeFrame` and `SequenceDecoder` for independent checksummed records, incremental input and byte-offset metadata. The root text API remains compatible. Binary encoding rejects unsupported values instead of calling `toJSON` or dropping them. For plain data a program builds itself, `encode` and `encodeFrame` take `{ trusted: true }`, which skips the per-property checks and writes the same bytes.
 
 ```js
 import { encode, decode } from "defuss-dson/binary";
@@ -253,7 +253,7 @@ If you use defuss-dson in research or want to reference it, cite it as:
   affiliation  = {Independent Researcher},
   title        = {defuss-dson: typed JSON serialization for JavaScript},
   year         = {2026},
-  version      = {1.3.0},
+  version      = {1.4.0},
   howpublished = {\url{https://github.com/kyr0/defuss-dson}},
   note         = {Serialization module of the defuss runtime, MIT License}
 }

@@ -13,80 +13,80 @@
     "results": [
       {
         "operation": "text.encode",
-        "medianMs": 1.5,
-        "operationsPerSecond": 666.6666666666666,
-        "encodedMBPerSecond": 190.13066666666666
+        "medianMs": 1.9800000190734863,
+        "operationsPerSecond": 505.05050018531625,
+        "encodedMBPerSecond": 144.03838245085146
       },
       {
         "operation": "text.decode",
-        "medianMs": 0.5470588235732388,
-        "operationsPerSecond": 1827.956989100867,
-        "encodedMBPerSecond": 521.3260214636109
+        "medianMs": 0.6933333396911621,
+        "operationsPerSecond": 1442.3076790818097,
+        "encodedMBPerSecond": 411.34038084341586
       },
       {
         "operation": "binary.encode",
-        "medianMs": 4,
-        "operationsPerSecond": 250,
-        "encodedMBPerSecond": 31.96175
+        "medianMs": 1.5,
+        "operationsPerSecond": 666.6666666666666,
+        "encodedMBPerSecond": 85.23133333333332
       },
       {
         "operation": "binary.decode",
-        "medianMs": 0.5250000000620881,
-        "operationsPerSecond": 1904.7619045366416,
-        "encodedMBPerSecond": 243.51809520929604
+        "medianMs": 0.36923077473273647,
+        "operationsPerSecond": 2708.333292976022,
+        "encodedMBPerSecond": 346.2522865071055
       },
       {
         "operation": "sequence.encode",
-        "medianMs": 4.5,
-        "operationsPerSecond": 222.22222222222223,
-        "encodedMBPerSecond": 29.817777777777778
+        "medianMs": 1.7666666706403096,
+        "operationsPerSecond": 566.0377345759065,
+        "encodedMBPerSecond": 75.95094322539514
       },
       {
         "operation": "sequence.scan",
-        "medianMs": 0.8249999997206032,
-        "operationsPerSecond": 1212.1212125317124,
-        "encodedMBPerSecond": 162.6424242975052
+        "medianMs": 0.5692307673967801,
+        "operationsPerSecond": 1756.7567624168034,
+        "encodedMBPerSecond": 235.7216223810867
       },
       {
         "operation": "index.ordinal.build",
-        "medianMs": 0.04300000000745058,
-        "operationsPerSecond": 23255.813949458854,
-        "encodedMBPerSecond": 3120.465115738389
+        "medianMs": 0.04399999976158142,
+        "operationsPerSecond": 22727.27285042282,
+        "encodedMBPerSecond": 3049.545471069734
       },
       {
         "operation": "index.key.build",
-        "medianMs": 0.9399999998509884,
-        "operationsPerSecond": 1063.8297874026841,
-        "encodedMBPerSecond": 142.74468087369215
+        "medianMs": 0.5235294103622437,
+        "operationsPerSecond": 1910.1123646674862,
+        "encodedMBPerSecond": 256.2988770910833
       },
       {
         "operation": "lookup.ordinal",
-        "medianMs": 0.003,
-        "operationsPerSecond": 333333.3333333333,
-        "encodedMBPerSecond": 175
+        "medianMs": 0.001899999976158142,
+        "operationsPerSecond": 526315.796078077,
+        "encodedMBPerSecond": 276.3157929409905
       },
       {
         "operation": "lookup.key",
-        "medianMs": 0.0029702970370797826,
-        "operationsPerSecond": 336666.665830546,
-        "encodedMBPerSecond": 176.74999956103665
+        "medianMs": 0.002,
+        "operationsPerSecond": 500000,
+        "encodedMBPerSecond": 262.5
       },
       {
         "operation": "lookup.linear",
-        "medianMs": 0.5823529410888167,
-        "operationsPerSecond": 1717.1717174301803,
-        "encodedMBPerSecond": 173.61464649077837
+        "medianMs": 0.4050000011920929,
+        "operationsPerSecond": 2469.1357952013846,
+        "encodedMBPerSecond": 249.641974573836
       }
     ],
     "runtime": "chromium",
     "version": "153.0.8010.12",
     "cpu": "Apple M5 Max",
     "platform": "darwin arm64",
-    "measuredAt": "2026-11-07T17:26:10.645Z",
+    "measuredAt": "2026-11-16T17:01:34.069Z",
     "hashes": {
       "index": "b154c61c330b104adfd47fa2ec4b9c9cb3bb12352bc2ea978428e8d114c663ff",
-      "binary": "7266adda4d6ab434bca7712884756aa45b1b30ca32321729687940b8a87a5b48",
-      "sequence": "489dd57ff6f31350097b50d265cd948f797005d3b2a1e7b987276a854afea0b5"
+      "binary": "ca4d370ff0a646fc7ce60dd454cb76a291668c9c796ee90f17d035c08cd385ca",
+      "sequence": "348bb1bda77cef4121bbed50beb06ce6877adb58d941d00d4d7d9bdd921f2fb9"
     },
     "allocation": "Unavailable: no common browser allocation sampler.",
     "methodology": "Median of nine warmed batches of at least approximately 10 ms; memory-resident records. Index setup excluded from lookup and measured separately."
@@ -96,11 +96,11 @@
     "version": "1.4.3",
     "cpu": "Apple M5 Max",
     "platform": "darwin arm64",
-    "measuredAt": "2026-11-07T17:26:09.515Z",
+    "measuredAt": "2026-11-16T17:01:32.753Z",
     "hashes": {
       "index": "b154c61c330b104adfd47fa2ec4b9c9cb3bb12352bc2ea978428e8d114c663ff",
-      "binary": "7266adda4d6ab434bca7712884756aa45b1b30ca32321729687940b8a87a5b48",
-      "sequence": "489dd57ff6f31350097b50d265cd948f797005d3b2a1e7b987276a854afea0b5"
+      "binary": "ca4d370ff0a646fc7ce60dd454cb76a291668c9c796ee90f17d035c08cd385ca",
+      "sequence": "348bb1bda77cef4121bbed50beb06ce6877adb58d941d00d4d7d9bdd921f2fb9"
     },
     "records": 256,
     "samples": 9,
@@ -117,69 +117,69 @@
     "results": [
       {
         "operation": "text.encode",
-        "medianMs": 1.5335477142857152,
-        "operationsPerSecond": 652.0827429655639,
-        "encodedMBPerSecond": 185.97138996280694
+        "medianMs": 1.9584000000000004,
+        "operationsPerSecond": 510.62091503267965,
+        "encodedMBPerSecond": 145.6270424836601
       },
       {
         "operation": "text.decode",
-        "medianMs": 0.6032999999999996,
-        "operationsPerSecond": 1657.550140891763,
-        "encodedMBPerSecond": 472.72666998176726
+        "medianMs": 0.8296458333333305,
+        "operationsPerSecond": 1205.3336011852489,
+        "encodedMBPerSecond": 343.7563217236282
       },
       {
         "operation": "binary.encode",
-        "medianMs": 3.0953852499999996,
-        "operationsPerSecond": 323.0615639846446,
-        "encodedMBPerSecond": 41.30245177074486
+        "medianMs": 1.941833333333335,
+        "operationsPerSecond": 514.9772551712294,
+        "encodedMBPerSecond": 65.83829714187617
       },
       {
         "operation": "binary.decode",
-        "medianMs": 0.6367415999999935,
-        "operationsPerSecond": 1570.4957866739196,
-        "encodedMBPerSecond": 200.7831748389006
+        "medianMs": 0.6189499999999991,
+        "operationsPerSecond": 1615.6393892883132,
+        "encodedMBPerSecond": 206.55464900234298
       },
       {
         "operation": "sequence.encode",
-        "medianMs": 3.848916666666677,
-        "operationsPerSecond": 259.8133673977519,
-        "encodedMBPerSecond": 34.86175763743035
+        "medianMs": 2.060656249999994,
+        "operationsPerSecond": 485.2822978116816,
+        "encodedMBPerSecond": 65.11517872037143
       },
       {
         "operation": "sequence.scan",
-        "medianMs": 1.4636904285714212,
-        "operationsPerSecond": 683.2045769241051,
-        "encodedMBPerSecond": 91.67239013167644
+        "medianMs": 0.7897257500000023,
+        "operationsPerSecond": 1266.262370196232,
+        "encodedMBPerSecond": 169.90708483293042
       },
       {
         "operation": "index.ordinal.build",
-        "medianMs": 0.06518583000000035,
-        "operationsPerSecond": 15340.7573394401,
-        "encodedMBPerSecond": 2058.4228198060728
+        "medianMs": 0.048339285714285786,
+        "operationsPerSecond": 20687.10749907644,
+        "encodedMBPerSecond": 2775.7960842260763
       },
       {
         "operation": "index.key.build",
-        "medianMs": 1.3556435555555533,
-        "operationsPerSecond": 737.6570307894779,
-        "encodedMBPerSecond": 98.97882039133214
+        "medianMs": 0.5970438421052641,
+        "operationsPerSecond": 1674.9188744227786,
+        "encodedMBPerSecond": 224.74061457004842
       },
       {
         "operation": "lookup.ordinal",
-        "medianMs": 0.0052991250000000035,
-        "operationsPerSecond": 188710.40030193652,
-        "encodedMBPerSecond": 99.07296015851666
+        "medianMs": 0.0024144999999999753,
+        "operationsPerSecond": 414164.42327604484,
+        "encodedMBPerSecond": 217.43632221992354
       },
       {
         "operation": "lookup.key",
-        "medianMs": 0.005117041999999969,
-        "operationsPerSecond": 195425.403973625,
-        "encodedMBPerSecond": 102.59833708615312
+        "medianMs": 0.0024313750000000025,
+        "operationsPerSecond": 411289.9079738827,
+        "encodedMBPerSecond": 215.9272016862884
       },
       {
         "operation": "lookup.linear",
-        "medianMs": 1.0347395833333337,
-        "operationsPerSecond": 966.4267378064122,
-        "encodedMBPerSecond": 97.71057532591732
+        "medianMs": 0.4622163870967744,
+        "operationsPerSecond": 2163.488850495103,
+        "encodedMBPerSecond": 218.7395402293074
       }
     ]
   },
@@ -197,94 +197,94 @@
     "results": [
       {
         "operation": "text.encode",
+        "medianMs": 2,
+        "operationsPerSecond": 500,
+        "encodedMBPerSecond": 142.598
+      },
+      {
+        "operation": "text.decode",
         "medianMs": 1.3,
         "operationsPerSecond": 769.2307692307692,
         "encodedMBPerSecond": 219.38153846153847
       },
       {
-        "operation": "text.decode",
-        "medianMs": 0.655,
-        "operationsPerSecond": 1526.7175572519084,
-        "encodedMBPerSecond": 435.41374045801524
-      },
-      {
         "operation": "binary.encode",
-        "medianMs": 3.6666666666666665,
-        "operationsPerSecond": 272.72727272727275,
-        "encodedMBPerSecond": 34.86736363636364
+        "medianMs": 2,
+        "operationsPerSecond": 500,
+        "encodedMBPerSecond": 63.9235
       },
       {
         "operation": "binary.decode",
-        "medianMs": 0.5,
-        "operationsPerSecond": 2000,
-        "encodedMBPerSecond": 255.694
+        "medianMs": 0.4,
+        "operationsPerSecond": 2500,
+        "encodedMBPerSecond": 319.6175
       },
       {
         "operation": "sequence.encode",
-        "medianMs": 4.5,
-        "operationsPerSecond": 222.22222222222223,
-        "encodedMBPerSecond": 29.817777777777778
+        "medianMs": 2,
+        "operationsPerSecond": 500,
+        "encodedMBPerSecond": 67.09
       },
       {
         "operation": "sequence.scan",
-        "medianMs": 1.4,
-        "operationsPerSecond": 714.2857142857143,
-        "encodedMBPerSecond": 95.84285714285714
+        "medianMs": 0.5,
+        "operationsPerSecond": 2000,
+        "encodedMBPerSecond": 268.36
       },
       {
         "operation": "index.ordinal.build",
-        "medianMs": 0.064,
-        "operationsPerSecond": 15625,
-        "encodedMBPerSecond": 2096.5625
+        "medianMs": 0.046,
+        "operationsPerSecond": 21739.130434782608,
+        "encodedMBPerSecond": 2916.9565217391305
       },
       {
         "operation": "index.key.build",
-        "medianMs": 1.2,
-        "operationsPerSecond": 833.3333333333334,
-        "encodedMBPerSecond": 111.81666666666668
+        "medianMs": 0.397,
+        "operationsPerSecond": 2518.891687657431,
+        "encodedMBPerSecond": 337.98488664987406
       },
       {
         "operation": "lookup.ordinal",
-        "medianMs": 0.005,
-        "operationsPerSecond": 200000,
-        "encodedMBPerSecond": 105
+        "medianMs": 0.001,
+        "operationsPerSecond": 1000000,
+        "encodedMBPerSecond": 525
       },
       {
         "operation": "lookup.key",
-        "medianMs": 0.005,
-        "operationsPerSecond": 200000,
-        "encodedMBPerSecond": 105
+        "medianMs": 0.001,
+        "operationsPerSecond": 1000000,
+        "encodedMBPerSecond": 525
       },
       {
         "operation": "lookup.linear",
-        "medianMs": 0.9,
-        "operationsPerSecond": 1111.111111111111,
-        "encodedMBPerSecond": 112.33888888888889
+        "medianMs": 0.281,
+        "operationsPerSecond": 3558.718861209964,
+        "encodedMBPerSecond": 359.8042704626334
       }
     ],
     "runtime": "webkit",
     "version": "26.6",
     "cpu": "Apple M5 Max",
     "platform": "darwin arm64",
-    "measuredAt": "2026-11-07T17:26:18.256Z",
+    "measuredAt": "2026-11-16T17:01:41.793Z",
     "hashes": {
       "index": "b154c61c330b104adfd47fa2ec4b9c9cb3bb12352bc2ea978428e8d114c663ff",
-      "binary": "7266adda4d6ab434bca7712884756aa45b1b30ca32321729687940b8a87a5b48",
-      "sequence": "489dd57ff6f31350097b50d265cd948f797005d3b2a1e7b987276a854afea0b5"
+      "binary": "ca4d370ff0a646fc7ce60dd454cb76a291668c9c796ee90f17d035c08cd385ca",
+      "sequence": "348bb1bda77cef4121bbed50beb06ce6877adb58d941d00d4d7d9bdd921f2fb9"
     },
     "allocation": "Unavailable: no common browser allocation sampler.",
     "methodology": "Median of nine warmed batches of at least approximately 10 ms; memory-resident records. Index setup excluded from lookup and measured separately."
   },
   "node": {
     "runtime": "node",
-    "version": "26.11.1",
+    "version": "26.13.0",
     "cpu": "Apple M5 Max",
     "platform": "darwin arm64",
-    "measuredAt": "2026-11-07T17:26:08.505Z",
+    "measuredAt": "2026-11-16T17:01:31.808Z",
     "hashes": {
       "index": "b154c61c330b104adfd47fa2ec4b9c9cb3bb12352bc2ea978428e8d114c663ff",
-      "binary": "7266adda4d6ab434bca7712884756aa45b1b30ca32321729687940b8a87a5b48",
-      "sequence": "489dd57ff6f31350097b50d265cd948f797005d3b2a1e7b987276a854afea0b5"
+      "binary": "ca4d370ff0a646fc7ce60dd454cb76a291668c9c796ee90f17d035c08cd385ca",
+      "sequence": "348bb1bda77cef4121bbed50beb06ce6877adb58d941d00d4d7d9bdd921f2fb9"
     },
     "records": 256,
     "samples": 9,
@@ -301,80 +301,80 @@
     "results": [
       {
         "operation": "text.encode",
-        "medianMs": 1.6544513333333317,
-        "operationsPerSecond": 604.4299882700293,
-        "encodedMBPerSecond": 172.38101493465928,
-        "sampledAllocatedBytesPerOperation": 5740249
+        "medianMs": 2.5846803333333335,
+        "operationsPerSecond": 386.89503963159336,
+        "encodedMBPerSecond": 110.3409177227719,
+        "sampledAllocatedBytesPerOperation": 5695085
       },
       {
         "operation": "text.decode",
-        "medianMs": 0.7253125000000011,
-        "operationsPerSecond": 1378.7160706591965,
-        "encodedMBPerSecond": 393.2043084877202,
-        "sampledAllocatedBytesPerOperation": 1907524
+        "medianMs": 1.0588750000000005,
+        "operationsPerSecond": 944.3985361822685,
+        "encodedMBPerSecond": 269.33868492503825,
+        "sampledAllocatedBytesPerOperation": 1910538
       },
       {
         "operation": "binary.encode",
-        "medianMs": 5.127020499999986,
-        "operationsPerSecond": 195.04505589552502,
-        "encodedMBPerSecond": 24.93592526107519,
-        "sampledAllocatedBytesPerOperation": 16547005
+        "medianMs": 2.3685833333333335,
+        "operationsPerSecond": 422.19329416317765,
+        "encodedMBPerSecond": 53.97614607887978,
+        "sampledAllocatedBytesPerOperation": 3664263
       },
       {
         "operation": "binary.decode",
-        "medianMs": 0.6599083000000008,
-        "operationsPerSecond": 1515.3620586375391,
-        "encodedMBPerSecond": 193.73449311063348,
-        "sampledAllocatedBytesPerOperation": 3289555
+        "medianMs": 0.43914423076922904,
+        "operationsPerSecond": 2277.1561822600866,
+        "encodedMBPerSecond": 291.12758643340527,
+        "sampledAllocatedBytesPerOperation": 1070304
       },
       {
         "operation": "sequence.encode",
-        "medianMs": 5.657478999999995,
-        "operationsPerSecond": 176.75717399923198,
-        "encodedMBPerSecond": 23.717277607216946,
-        "sampledAllocatedBytesPerOperation": 16951950
+        "medianMs": 2.4225312499999916,
+        "operationsPerSecond": 412.79137266031285,
+        "encodedMBPerSecond": 55.38834638356077,
+        "sampledAllocatedBytesPerOperation": 4001138
       },
       {
         "operation": "sequence.scan",
-        "medianMs": 1.0530555555555514,
-        "operationsPerSecond": 949.6175151675058,
-        "encodedMBPerSecond": 127.41967818517591,
-        "sampledAllocatedBytesPerOperation": 3912545
+        "medianMs": 0.592931571428567,
+        "operationsPerSecond": 1686.5352566581525,
+        "encodedMBPerSecond": 226.2993007383909,
+        "sampledAllocatedBytesPerOperation": 1667978
       },
       {
         "operation": "index.ordinal.build",
-        "medianMs": 0.053423214285714136,
-        "operationsPerSecond": 18718.45439048038,
-        "encodedMBPerSecond": 2511.6422101146572,
-        "sampledAllocatedBytesPerOperation": 322278
+        "medianMs": 0.055616604838709165,
+        "operationsPerSecond": 17980.24174435042,
+        "encodedMBPerSecond": 2412.5888372569393,
+        "sampledAllocatedBytesPerOperation": 265269
       },
       {
         "operation": "index.key.build",
-        "medianMs": 1.0441458000000012,
-        "operationsPerSecond": 957.7206554870007,
-        "encodedMBPerSecond": 128.50695755324577,
-        "sampledAllocatedBytesPerOperation": 3919078
+        "medianMs": 0.5427708571428573,
+        "operationsPerSecond": 1842.3981074886633,
+        "encodedMBPerSecond": 247.21297806282885,
+        "sampledAllocatedBytesPerOperation": 1690128
       },
       {
         "operation": "lookup.ordinal",
-        "medianMs": 0.004003791000000092,
-        "operationsPerSecond": 249763.28684488698,
-        "encodedMBPerSecond": 131.12572559356568,
-        "sampledAllocatedBytesPerOperation": 17133
+        "medianMs": 0.0019436249999999972,
+        "operationsPerSecond": 514502.5403562937,
+        "encodedMBPerSecond": 270.11383368705424,
+        "sampledAllocatedBytesPerOperation": 6138
       },
       {
         "operation": "lookup.key",
-        "medianMs": 0.0039936669999999595,
-        "operationsPerSecond": 250396.44016389202,
-        "encodedMBPerSecond": 131.45813108604332,
-        "sampledAllocatedBytesPerOperation": 16366
+        "medianMs": 0.001930417000000034,
+        "operationsPerSecond": 518022.7898946095,
+        "encodedMBPerSecond": 271.96196469467,
+        "sampledAllocatedBytesPerOperation": 6914
       },
       {
         "operation": "lookup.linear",
-        "medianMs": 0.7754807692307745,
-        "operationsPerSecond": 1289.5226286422728,
-        "encodedMBPerSecond": 130.37718536887698,
-        "sampledAllocatedBytesPerOperation": 2992244
+        "medianMs": 0.4329708500000038,
+        "operationsPerSecond": 2309.624308426286,
+        "encodedMBPerSecond": 233.51456570343964,
+        "sampledAllocatedBytesPerOperation": 1237521
       }
     ]
   }

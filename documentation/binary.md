@@ -35,7 +35,7 @@ VERIFIED: supported built-ins are Date (including invalid dates), RegExp (source
 
 VERIFIED: Error records preserve their native class, name, message, cause, aggregate errors and enumerable custom properties, including reference cycles. Sender stacks and source-location fields (`stack`, `line`, `column`, `sourceURL`, `originalLine`, `originalColumn`) are deliberately omitted because they can disclose paths. Decoded property descriptors are normalized to writable, configurable data properties; object and array properties are enumerable. Descriptor flags, frozen/sealed state and resizable-buffer capacity are not stored.
 
-VERIFIED: functions, symbols (including symbol keys), accessors, non-enumerable custom properties, custom class instances, built-in subclasses, cross-realm prototypes, WeakMap/WeakSet, SharedArrayBuffer and other unsupported object kinds fail explicitly. Node.js Buffer values are subclasses and must be converted to a supported Uint8Array before encoding. Extra own properties on built-ins other than arrays and Errors are rejected. The encoder never calls `toJSON`. An Error's diagnostic-field accessors are omitted without reading them. As with ordinary JavaScript reflection, a Proxy can execute its traps during encoding; only decoding is an untrusted-input boundary.
+VERIFIED: functions, symbols (including symbol keys), accessors, non-enumerable custom properties, custom class instances, built-in subclasses, cross-realm prototypes, WeakMap/WeakSet, SharedArrayBuffer and other unsupported object kinds fail explicitly. With [`trusted`](#trusted-plain-data) the encoder skips the checks for accessors, symbol keys, non-enumerable properties and extra properties of built-ins; every other unsupported value still throws. Node.js Buffer values are subclasses and must be converted to a supported Uint8Array before encoding. Extra own properties on built-ins other than arrays and Errors are rejected. The encoder never calls `toJSON`. An Error's diagnostic-field accessors are omitted without reading them. As with ordinary JavaScript reflection, a Proxy can execute its traps during encoding; only decoding is an untrusted-input boundary.
 
 ## Bounds
 
@@ -48,6 +48,18 @@ VERIFIED: both codecs accept these per-record options. Options must be integers 
 | `maxReferences` | 1,000,000 | Value-table entries, including primitives; references must name an entry in the same table. |
 
 VERIFIED: sequence options also accept `startOffset` (default zero), the absolute offset of the first byte supplied to that decoder. Offsets and their sums must be nonnegative safe integers. `index` starts at zero for each decoder. Size, reference and depth limits bound encoded input and graph traversal, not exact JavaScript heap usage. The returned batch grows with the number of complete frames in a supplied chunk; callers control chunk size and backpressure. The decoder retains at most one partial frame and copies incomplete fragments so the caller can reuse its input buffers.
+
+## Trusted plain data
+
+VERIFIED: since 1.4.0, `encode` and `encodeFrame` also accept `trusted` (default `false`, type `EncodeOptions`). With `trusted: true` the caller guarantees plain data: objects and arrays hold only own enumerable data properties with string keys, as object literals and `JSON.parse` make them, and Maps, Sets, Dates, buffers, views, RegExps and wrapper objects carry no own properties. The encoder then reads keys with `Object.keys` and values by property access, skipping the descriptor checks; output for such values is byte-identical. A value that breaks the guarantee is not rejected: its getters run, and non-enumerable properties, symbol keys and extra properties of built-ins are left out. Errors are checked either way. Decoders accept the option and ignore it, so one options object can serve both directions. On a 32-entry index page it saved 15 % of `encodeFrame`'s time on Node.js 26 and 26 % on Bun 1.4.
+
+```js
+import { encodeFrame, decodeFrame } from "defuss-dson/sequence";
+
+const page = { kind: "leaf", entries: [{ key: "a", revision: 1 }] };
+const frame = encodeFrame(page, { trusted: true });
+console.log(decodeFrame(frame).value.entries[0].key); // a
+```
 
 ## Binary value format, version 1
 

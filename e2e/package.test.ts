@@ -64,12 +64,17 @@ describe("type declarations", () => {
 const copy: Map<string, number> = DSON.clone(new Map([["a", 1]]));
 const options: DSONOptions = { maxDepth: 1_000 };
 const text: string = DSON.stringify(copy, options);
-import { encode, decode, type BinaryOptions } from "defuss-dson/binary";
+import { encode, decode, type BinaryOptions, type EncodeOptions } from "defuss-dson/binary";
 import { encodeFrame, inspectFrame, decodeFrame, SequenceDecoder, type FrameMetadata, type SequenceRecord } from "defuss-dson/sequence";
 const binaryOptions: BinaryOptions = { maxRecordBytes: 1000, maxDepth: 20, maxReferences: 100 };
 const bytes: Uint8Array = encode(copy, binaryOptions);
 const decoded: unknown = decode(bytes, binaryOptions);
 const frame: Uint8Array = encodeFrame(decoded, binaryOptions);
+const trusted: EncodeOptions = { ...binaryOptions, trusted: true };
+const plain: Uint8Array = encode({ a: [1] }, trusted);
+export const same: Uint8Array = encodeFrame(decode(plain, trusted), trusted);
+// @ts-expect-error trusted is a boolean
+encode(1, { trusted: "yes" });
 const meta: FrameMetadata = inspectFrame(frame);
 const record: FrameMetadata = decodeFrame(frame, meta.offset);
 const sequence = new SequenceDecoder({ ...binaryOptions, startOffset: record.offset });

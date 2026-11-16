@@ -20,6 +20,13 @@ assert(back.values.every((value, i) => Object.is(value, root.values[i])));
 assert(back.boxes.every((value, i) => Object.is(value.valueOf(), root.boxes[i].valueOf())));
 assert(back.error instanceof TypeError && back.error.cause.id === 1);
 for (const value of [() => 1, Symbol(), new WeakMap(), { toJSON() { throw new Error('must not run'); } }]) reject(() => encode(value));
+// VERIFIED: (this matrix, 2026-11-16) trusted writes the same bytes for plain data, in values and in frames, and still
+// rejects a function
+const same = (a, b) => a.length === b.length && a.every((byte, i) => byte === b[i]);
+const page = { kind: 'leaf', entries: Array.from({ length: 40 }, (_, i) => ({ key: `k${i}\ud800`, ref: { offset: i, size: -0 }, at: [i, null, true] })) };
+assert(same(encode(page, { trusted: true }), encode(page)) && same(encodeFrame(page, { trusted: true }), encodeFrame(page)));
+assert(same(encode(root, { trusted: true }), bytes));
+reject(() => encode({ run() {} }, { trusted: true }));
 const frames = [encodeFrame(root), encodeFrame({ id: 'second' })];
 const sequence = new Uint8Array(frames[0].length + frames[1].length); sequence.set(frames[0]); sequence.set(frames[1], frames[0].length);
 assert(FRAME_HEADER_BYTES === 16 && inspectFrame(sequence).byteLength === frames[0].length);

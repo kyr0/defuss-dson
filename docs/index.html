@@ -79,7 +79,7 @@
           <span class="swap-on"><svg class="dz-icon" aria-hidden="true"><use href="#i-moon"/></svg></span>
           <span class="swap-off"><svg class="dz-icon" aria-hidden="true"><use href="#i-sun"/></svg></span>
         </label>
-        <a class="btn mk-header-wide dz-npm-tag" data-variant="outline" data-size="sm" href="https://www.npmjs.com/package/defuss-dson" target="_blank" rel="noopener"><svg class="dz-icon" aria-hidden="true"><use href="#i-package"/></svg>npm <span class="badge" data-variant="secondary" data-size="xs"><span data-fact="version">v1.3.0</span></span><span class="sr-only"> (opens in a new tab)</span></a>
+        <a class="btn mk-header-wide dz-npm-tag" data-variant="outline" data-size="sm" href="https://www.npmjs.com/package/defuss-dson" target="_blank" rel="noopener"><svg class="dz-icon" aria-hidden="true"><use href="#i-package"/></svg>npm <span class="badge" data-variant="secondary" data-size="xs"><span data-fact="version">v1.4.0</span></span><span class="sr-only"> (opens in a new tab)</span></a>
         <a class="btn mk-header-wide" data-variant="ghost" data-size="icon" href="https://github.com/kyr0/defuss-dson" aria-label="defuss-dson on GitHub"><svg class="dz-icon" aria-hidden="true"><use href="#i-github"/></svg></a>
         <button type="button" class="btn mk-header-menu" data-variant="ghost" data-size="icon" data-sheet-trigger="dz-menu" aria-haspopup="dialog" aria-label="Open menu"><svg class="dz-icon" aria-hidden="true"><use href="#i-menu"/></svg></button>
       </div>
@@ -102,7 +102,7 @@
         </div>
         <div class="sheet-footer mk-header-sheet-actions">
           <a class="btn" data-variant="outline" href="https://github.com/kyr0/defuss-dson"><svg class="dz-icon" aria-hidden="true"><use href="#i-github"/></svg>GitHub</a>
-          <a class="btn" data-variant="outline" href="https://www.npmjs.com/package/defuss-dson"><svg class="dz-icon" aria-hidden="true"><use href="#i-package"/></svg>npm <span class="badge" data-variant="secondary" data-size="xs"><span data-fact="version">v1.3.0</span></span></a>
+          <a class="btn" data-variant="outline" href="https://www.npmjs.com/package/defuss-dson"><svg class="dz-icon" aria-hidden="true"><use href="#i-package"/></svg>npm <span class="badge" data-variant="secondary" data-size="xs"><span data-fact="version">v1.4.0</span></span></a>
         </div>
       </div>
     </dialog>
@@ -121,7 +121,7 @@
     <div class="parallax-content">
       <section class="mk-hero" style="width:100%">
         <div class="mk-hero-copy">
-          <div class="mk-hero-pill dz-hero-pill"><a class="badge" data-variant="default" data-size="sm" href="https://www.npmjs.com/package/defuss-dson" target="_blank" rel="noopener">npm&nbsp;<span data-fact="version">v1.3.0</span><span class="sr-only"> (opens in a new tab)</span></a><a href="#use">Runs in browsers, Node.js and Bun <svg class="dz-icon" aria-hidden="true"><use href="#i-arrow-down"/></svg></a></div>
+          <div class="mk-hero-pill dz-hero-pill"><a class="badge" data-variant="default" data-size="sm" href="https://www.npmjs.com/package/defuss-dson" target="_blank" rel="noopener">npm&nbsp;<span data-fact="version">v1.4.0</span><span class="sr-only"> (opens in a new tab)</span></a><a href="#use">Runs in browsers, Node.js and Bun <svg class="dz-icon" aria-hidden="true"><use href="#i-arrow-down"/></svg></a></div>
           <h1 class="mk-hero-title"><strong>JSON</strong> that keeps your <i>types</i></h1>
           <p class="dz-flip"><span class="text-rotate"><span>
               <span class="dz-accent">Maps come back as Maps</span>
@@ -365,7 +365,7 @@ console.log(records[0].byteLength === offset); // true</code></pre>
         <p class="dz-note">Seeking decodes one complete record. Persistent indexes, updates, recovery and compaction belong to the storage layer.</p>
       </article>
     </div>
-    <p class="dz-note">Compare size, throughput, allocation and indexed lookup separately in the <a href="./data/binary-bench.json">binary benchmark results</a>. Binary encoding is smaller for the measured fixture, but takes more time and allocations than text encoding.</p>
+    <p class="dz-note">Compare size, throughput, allocation and indexed lookup separately in the <a href="./data/binary-bench.json">binary benchmark results</a>. Binary encoding is smaller for the measured fixture and, since 1.4.0, takes about as long as text encoding.</p>
     <div class="mk-section-header-actions">
       <a class="btn" data-variant="outline" href="https://github.com/kyr0/defuss-dson/blob/main/documentation/binary.md" target="_blank" rel="noopener">Binary API and format<svg class="dz-icon dz-ext" aria-hidden="true"><use href="#i-external"/></svg><span class="sr-only"> (opens in a new tab)</span></a>
     </div>
@@ -443,7 +443,7 @@ console.log(records[0].byteLength === offset); // true</code></pre>
         <button class="tab-trigger" role="tab" aria-selected="true" aria-controls="bench-panel-chromium" id="bench-tab-chromium">Chromium<span class="dz-tab-version"> 153.0</span></button>
         <button class="tab-trigger" role="tab" aria-selected="false" aria-controls="bench-panel-bun" id="bench-tab-bun" tabindex="-1">Bun<span class="dz-tab-version"> 1.4</span></button>
         <button class="tab-trigger" role="tab" aria-selected="false" aria-controls="bench-panel-webkit" id="bench-tab-webkit" tabindex="-1">WebKit<span class="dz-tab-version"> 26.6</span></button>
-        <button class="tab-trigger" role="tab" aria-selected="false" aria-controls="bench-panel-node" id="bench-tab-node" tabindex="-1">Node.js<span class="dz-tab-version"> 26.11</span></button>
+        <button class="tab-trigger" role="tab" aria-selected="false" aria-controls="bench-panel-node" id="bench-tab-node" tabindex="-1">Node.js<span class="dz-tab-version"> 26.13</span></button>
       </div>
       <div class="tab-content" role="tabpanel" id="bench-panel-chromium" aria-labelledby="bench-tab-chromium" tabindex="0">
         <div class="table-container">
@@ -451,15 +451,15 @@ console.log(records[0].byteLength === offset); // true</code></pre>
             <thead><tr class="table-row"><th class="table-head" scope="col">Operation</th><th class="table-head dz-num" scope="col">Median time</th><th class="table-head dz-num" scope="col">Peak RSS</th></tr></thead>
             <tbody>
               <tr class="table-row dz-group"><th class="table-cell" colspan="3" scope="colgroup">Typed graph</th></tr>
-              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.stringify</code></th><td class="table-cell dz-num">2.6 ms</td><td class="table-cell dz-num">157 MB</td></tr>
-              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.parse</code></th><td class="table-cell dz-num">1.8 ms</td><td class="table-cell dz-num">135 MB</td></tr>
-              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.isEqual</code></th><td class="table-cell dz-num">5.0 ms</td><td class="table-cell dz-num">203 MB</td></tr>
-              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.clone</code></th><td class="table-cell dz-num">0.9 ms</td><td class="table-cell dz-num">112 MB</td></tr>
+              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.stringify</code></th><td class="table-cell dz-num">2.8 ms</td><td class="table-cell dz-num">158 MB</td></tr>
+              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.parse</code></th><td class="table-cell dz-num">2.0 ms</td><td class="table-cell dz-num">135 MB</td></tr>
+              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.isEqual</code></th><td class="table-cell dz-num">5.5 ms</td><td class="table-cell dz-num">203 MB</td></tr>
+              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.clone</code></th><td class="table-cell dz-num">1.1 ms</td><td class="table-cell dz-num">112 MB</td></tr>
               <tr class="table-row dz-group"><th class="table-cell" colspan="3" scope="colgroup">Plain graph</th></tr>
-              <tr class="table-row"><th class="table-cell" scope="row"><code>JSON.stringify</code></th><td class="table-cell dz-num">0.6 ms</td><td class="table-cell dz-num">101 MB</td></tr>
-              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.stringify</code></th><td class="table-cell dz-num">1.5 ms</td><td class="table-cell dz-num">125 MB</td></tr>
-              <tr class="table-row"><th class="table-cell" scope="row"><code>JSON.parse</code></th><td class="table-cell dz-num">0.2 ms</td><td class="table-cell dz-num">102 MB</td></tr>
-              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.parse</code></th><td class="table-cell dz-num">1.9 ms</td><td class="table-cell dz-num">135 MB</td></tr>
+              <tr class="table-row"><th class="table-cell" scope="row"><code>JSON.stringify</code></th><td class="table-cell dz-num">0.7 ms</td><td class="table-cell dz-num">102 MB</td></tr>
+              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.stringify</code></th><td class="table-cell dz-num">1.8 ms</td><td class="table-cell dz-num">131 MB</td></tr>
+              <tr class="table-row"><th class="table-cell" scope="row"><code>JSON.parse</code></th><td class="table-cell dz-num">0.3 ms</td><td class="table-cell dz-num">102 MB</td></tr>
+              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.parse</code></th><td class="table-cell dz-num">2.3 ms</td><td class="table-cell dz-num">144 MB</td></tr>
             </tbody>
           </table>
         </div>
@@ -470,15 +470,15 @@ console.log(records[0].byteLength === offset); // true</code></pre>
             <thead><tr class="table-row"><th class="table-head" scope="col">Operation</th><th class="table-head dz-num" scope="col">Median time</th><th class="table-head dz-num" scope="col">Peak RSS</th></tr></thead>
             <tbody>
               <tr class="table-row dz-group"><th class="table-cell" colspan="3" scope="colgroup">Typed graph</th></tr>
-              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.stringify</code></th><td class="table-cell dz-num">2.1 ms</td><td class="table-cell dz-num">66 MB</td></tr>
-              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.parse</code></th><td class="table-cell dz-num">1.6 ms</td><td class="table-cell dz-num">59 MB</td></tr>
-              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.isEqual</code></th><td class="table-cell dz-num">4.2 ms</td><td class="table-cell dz-num">91 MB</td></tr>
-              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.clone</code></th><td class="table-cell dz-num">1.1 ms</td><td class="table-cell dz-num">27 MB</td></tr>
+              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.stringify</code></th><td class="table-cell dz-num">2.5 ms</td><td class="table-cell dz-num">66 MB</td></tr>
+              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.parse</code></th><td class="table-cell dz-num">2.1 ms</td><td class="table-cell dz-num">59 MB</td></tr>
+              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.isEqual</code></th><td class="table-cell dz-num">5.5 ms</td><td class="table-cell dz-num">88 MB</td></tr>
+              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.clone</code></th><td class="table-cell dz-num">1.4 ms</td><td class="table-cell dz-num">27 MB</td></tr>
               <tr class="table-row dz-group"><th class="table-cell" colspan="3" scope="colgroup">Plain graph</th></tr>
-              <tr class="table-row"><th class="table-cell" scope="row"><code>JSON.stringify</code></th><td class="table-cell dz-num">0.6 ms</td><td class="table-cell dz-num">19 MB</td></tr>
-              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.stringify</code></th><td class="table-cell dz-num">2.1 ms</td><td class="table-cell dz-num">58 MB</td></tr>
-              <tr class="table-row"><th class="table-cell" scope="row"><code>JSON.parse</code></th><td class="table-cell dz-num">0.4 ms</td><td class="table-cell dz-num">20 MB</td></tr>
-              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.parse</code></th><td class="table-cell dz-num">1.9 ms</td><td class="table-cell dz-num">54 MB</td></tr>
+              <tr class="table-row"><th class="table-cell" scope="row"><code>JSON.stringify</code></th><td class="table-cell dz-num">0.8 ms</td><td class="table-cell dz-num">19 MB</td></tr>
+              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.stringify</code></th><td class="table-cell dz-num">2.4 ms</td><td class="table-cell dz-num">55 MB</td></tr>
+              <tr class="table-row"><th class="table-cell" scope="row"><code>JSON.parse</code></th><td class="table-cell dz-num">0.5 ms</td><td class="table-cell dz-num">20 MB</td></tr>
+              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.parse</code></th><td class="table-cell dz-num">2.1 ms</td><td class="table-cell dz-num">54 MB</td></tr>
             </tbody>
           </table>
         </div>
@@ -489,15 +489,15 @@ console.log(records[0].byteLength === offset); // true</code></pre>
             <thead><tr class="table-row"><th class="table-head" scope="col">Operation</th><th class="table-head dz-num" scope="col">Median time</th><th class="table-head dz-num" scope="col">Peak RSS</th></tr></thead>
             <tbody>
               <tr class="table-row dz-group"><th class="table-cell" colspan="3" scope="colgroup">Typed graph</th></tr>
-              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.stringify</code></th><td class="table-cell dz-num">1.8 ms</td><td class="table-cell dz-num">199 MB</td></tr>
-              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.parse</code></th><td class="table-cell dz-num">1.8 ms</td><td class="table-cell dz-num">161 MB</td></tr>
-              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.isEqual</code></th><td class="table-cell dz-num">3.6 ms</td><td class="table-cell dz-num">322 MB</td></tr>
-              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.clone</code></th><td class="table-cell dz-num">1.6 ms</td><td class="table-cell dz-num">134 MB</td></tr>
+              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.stringify</code></th><td class="table-cell dz-num">2.3 ms</td><td class="table-cell dz-num">198 MB</td></tr>
+              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.parse</code></th><td class="table-cell dz-num">2.3 ms</td><td class="table-cell dz-num">159 MB</td></tr>
+              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.isEqual</code></th><td class="table-cell dz-num">4.0 ms</td><td class="table-cell dz-num">323 MB</td></tr>
+              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.clone</code></th><td class="table-cell dz-num">1.7 ms</td><td class="table-cell dz-num">134 MB</td></tr>
               <tr class="table-row dz-group"><th class="table-cell" colspan="3" scope="colgroup">Plain graph</th></tr>
-              <tr class="table-row"><th class="table-cell" scope="row"><code>JSON.stringify</code></th><td class="table-cell dz-num">0.7 ms</td><td class="table-cell dz-num">108 MB</td></tr>
-              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.stringify</code></th><td class="table-cell dz-num">1.5 ms</td><td class="table-cell dz-num">184 MB</td></tr>
-              <tr class="table-row"><th class="table-cell" scope="row"><code>JSON.parse</code></th><td class="table-cell dz-num">0.4 ms</td><td class="table-cell dz-num">112 MB</td></tr>
-              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.parse</code></th><td class="table-cell dz-num">1.7 ms</td><td class="table-cell dz-num">159 MB</td></tr>
+              <tr class="table-row"><th class="table-cell" scope="row"><code>JSON.stringify</code></th><td class="table-cell dz-num">0.8 ms</td><td class="table-cell dz-num">108 MB</td></tr>
+              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.stringify</code></th><td class="table-cell dz-num">1.9 ms</td><td class="table-cell dz-num">181 MB</td></tr>
+              <tr class="table-row"><th class="table-cell" scope="row"><code>JSON.parse</code></th><td class="table-cell dz-num">0.5 ms</td><td class="table-cell dz-num">112 MB</td></tr>
+              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.parse</code></th><td class="table-cell dz-num">2.0 ms</td><td class="table-cell dz-num">158 MB</td></tr>
             </tbody>
           </table>
         </div>
@@ -508,21 +508,21 @@ console.log(records[0].byteLength === offset); // true</code></pre>
             <thead><tr class="table-row"><th class="table-head" scope="col">Operation</th><th class="table-head dz-num" scope="col">Median time</th><th class="table-head dz-num" scope="col">Peak RSS</th></tr></thead>
             <tbody>
               <tr class="table-row dz-group"><th class="table-cell" colspan="3" scope="colgroup">Typed graph</th></tr>
-              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.stringify</code></th><td class="table-cell dz-num">3.2 ms</td><td class="table-cell dz-num">133 MB</td></tr>
-              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.parse</code></th><td class="table-cell dz-num">2.4 ms</td><td class="table-cell dz-num">105 MB</td></tr>
-              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.isEqual</code></th><td class="table-cell dz-num">6.6 ms</td><td class="table-cell dz-num">171 MB</td></tr>
-              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.clone</code></th><td class="table-cell dz-num">1.2 ms</td><td class="table-cell dz-num">71 MB</td></tr>
+              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.stringify</code></th><td class="table-cell dz-num">6.7 ms</td><td class="table-cell dz-num">134 MB</td></tr>
+              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.parse</code></th><td class="table-cell dz-num">4.6 ms</td><td class="table-cell dz-num">124 MB</td></tr>
+              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.isEqual</code></th><td class="table-cell dz-num">11.4 ms</td><td class="table-cell dz-num">189 MB</td></tr>
+              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.clone</code></th><td class="table-cell dz-num">1.9 ms</td><td class="table-cell dz-num">72 MB</td></tr>
               <tr class="table-row dz-group"><th class="table-cell" colspan="3" scope="colgroup">Plain graph</th></tr>
-              <tr class="table-row"><th class="table-cell" scope="row"><code>JSON.stringify</code></th><td class="table-cell dz-num">0.8 ms</td><td class="table-cell dz-num">62 MB</td></tr>
-              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.stringify</code></th><td class="table-cell dz-num">2.1 ms</td><td class="table-cell dz-num">148 MB</td></tr>
-              <tr class="table-row"><th class="table-cell" scope="row"><code>JSON.parse</code></th><td class="table-cell dz-num">0.4 ms</td><td class="table-cell dz-num">63 MB</td></tr>
-              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.parse</code></th><td class="table-cell dz-num">2.5 ms</td><td class="table-cell dz-num">120 MB</td></tr>
+              <tr class="table-row"><th class="table-cell" scope="row"><code>JSON.stringify</code></th><td class="table-cell dz-num">0.9 ms</td><td class="table-cell dz-num">63 MB</td></tr>
+              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.stringify</code></th><td class="table-cell dz-num">3.0 ms</td><td class="table-cell dz-num">145 MB</td></tr>
+              <tr class="table-row"><th class="table-cell" scope="row"><code>JSON.parse</code></th><td class="table-cell dz-num">0.6 ms</td><td class="table-cell dz-num">63 MB</td></tr>
+              <tr class="table-row"><th class="table-cell" scope="row"><code>DSON.parse</code></th><td class="table-cell dz-num">3.5 ms</td><td class="table-cell dz-num">116 MB</td></tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
-    <p class="dz-note">Measured with <code>make bench</code> on 2026-11-07, Apple M5 Max (darwin arm64), against defuss-dson 1.3.0, in Chromium 153.0.8010.12, Bun 1.4.3, WebKit 26.6 and Node.js 26.11.1. Each time is the median of 20 samples, each sample long enough for the browsers' coarse timers. Peak RSS covers a fresh process that builds the inputs and runs the operation 21 times: in Node.js and Bun the process's own high-water mark, in the browsers the page's process, sampled while the operation runs. Building the inputs alone takes 99 MB and 99 MB in Chromium; 13 MB and 13 MB in Bun; 101 MB and 101 MB in WebKit; 57 MB and 57 MB in Node.js (typed and plain graph). The typed graph is 367,895 bytes of DSON; the plain graph is 257,812 bytes of JSON and 391,223 bytes of DSON.</p>
+    <p class="dz-note">Measured with <code>make bench</code> on 2026-11-16, Apple M5 Max (darwin arm64), against defuss-dson 1.4.0, in Chromium 153.0.8010.12, Bun 1.4.3, WebKit 26.6 and Node.js 26.13.0. Each time is the median of 20 samples, each sample long enough for the browsers' coarse timers. Peak RSS covers a fresh process that builds the inputs and runs the operation 21 times: in Node.js and Bun the process's own high-water mark, in the browsers the page's process, sampled while the operation runs. Building the inputs alone takes 97 MB and 99 MB in Chromium; 13 MB and 13 MB in Bun; 101 MB and 100 MB in WebKit; 58 MB and 58 MB in Node.js (typed and plain graph). The typed graph is 367,895 bytes of DSON; the plain graph is 257,812 bytes of JSON and 391,223 bytes of DSON.</p>
     <!-- bench:end -->
     <h3 class="dz-subtitle">Unit test coverage</h3>
     <!-- coverage:start -->
@@ -534,7 +534,7 @@ console.log(records[0].byteLength === offset); // true</code></pre>
         <div class="mk-stat"><div class="radial-progress" role="progressbar" data-tone="auto" data-level="high" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" aria-label="Statements coverage" style="--value: 100; --size: 6rem">100%</div><span class="mk-stat-label">Statements</span></div>
       </div>
     </div>
-    <p class="dz-note"><span data-fact="tests">151</span> unit tests run on Node.js and on Bun; V8 measures the coverage on Node.js, and the build fails below 100&nbsp;%.</p>
+    <p class="dz-note"><span data-fact="tests">157</span> unit tests run on Node.js and on Bun; V8 measures the coverage on Node.js, and the build fails below 100&nbsp;%.</p>
     <!-- coverage:end -->
   </section>
 
@@ -579,7 +579,7 @@ console.log(DSON.isEqual(session, back)); // true</code></pre>
         <figure class="mk-code-block" data-variant="file">
           <div class="mk-code-block-head"><span class="mk-code-block-file"><svg class="dz-icon" aria-hidden="true"><use href="#i-file"/></svg>index.html</span><button class="mk-code-block-copy" type="button" aria-label="Copy code"><svg class="dz-icon" aria-hidden="true"><use href="#i-copy"/></svg></button></div>
           <pre data-numbers data-lang="html" data-example="browser"><code>&lt;script type="module"&gt;
-  import { DSON } from "https://cdn.jsdelivr.net/npm/defuss-dson@1.3.0/dist/index.mjs";
+  import { DSON } from "https://cdn.jsdelivr.net/npm/defuss-dson@1.4.0/dist/index.mjs";
 
   const text = DSON.stringify({ seen: new Set([1, 2]) });
   console.log(DSON.parse(text).seen.has(2)); // true

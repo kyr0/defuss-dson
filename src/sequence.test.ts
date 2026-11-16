@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { encode } from "./binary.js";
 import { encodeFrame, decodeFrame, inspectFrame, SequenceDecoder, FRAME_HEADER_BYTES } from "./sequence.js";
+import { checksum } from "./crc32c.js";
 
 const join = (...parts: Uint8Array[]): Uint8Array => {
   const out = new Uint8Array(parts.reduce((size, part) => size + part.length, 0));
@@ -29,6 +30,14 @@ describe("framed sequences", () => {
       checksum: crc(bytes.subarray(16)) });
     expect(new DataView(bytes.buffer).getUint32(12, true)).toBe(crc(bytes.subarray(0, 12)));
     expect(decodeFrame(bytes).value).toEqual(new Uint8Array([10, 0, 255, 10]));
+  });
+
+  it("computes CRC32C for every length and alignment that the 16-byte steps and the byte tail meet", () => {
+    expect(checksum(new TextEncoder().encode("123456789"))).toBe(0xe3069283);
+    const bytes = Uint8Array.from({ length: 4099 }, (_, i) => (i * 131 + 7) & 255);
+    for (let start = 0; start < 4; start++) for (let end = start; end <= 80; end++)
+      expect(checksum(bytes.subarray(start, end)), `${start}..${end}`).toBe(crc(bytes.subarray(start, end)));
+    expect(checksum(bytes)).toBe(crc(bytes));
   });
 
   it("decodes every two-way and three-way split, including empty chunks and exact boundaries", () => {

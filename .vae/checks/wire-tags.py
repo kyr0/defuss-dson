@@ -19,7 +19,7 @@ problems += [f"src/tags.ts: {name}={value} is not in the frozen table of .vae/ch
 problems += [f"documentation/format.md: tag table lacks the row '| {value} | {name} |'" for name, value in FROZEN.items()
              if not re.search(rf"^\|\s*{value}\s*\|\s*{name}\s*\|", spec, re.M)]
 # Subtype positions are wire values too: inserting a constructor would reinterpret stored bytes.
-binary = (root / "src/binary.ts").read_text("utf-8")
+binary = (root / "src/binary-format.ts").read_text("utf-8")
 subtypes = {
     "VIEW_NAMES": ["DataView", "Int8Array", "Uint8Array", "Uint8ClampedArray", "Int16Array", "Uint16Array",
                    "Int32Array", "Uint32Array", "Float16Array", "Float32Array", "Float64Array", "BigInt64Array", "BigUint64Array"],
@@ -30,7 +30,7 @@ for name, expected in subtypes.items():
     match = re.search(rf"const {name} = \[([^\]]*)\]", binary)
     actual = re.findall(r"[A-Za-z][A-Za-z0-9]*", match[1]) if match else []
     if actual != expected:
-        problems.append(f"src/binary.ts: {name} wire subtype order must stay {expected}; append and document new subtypes explicitly")
+        problems.append(f"src/binary-format.ts: {name} wire subtype order must stay {expected}; append and document new subtypes explicitly")
 if problems:
     print("\n".join(problems))
     sys.exit(1)

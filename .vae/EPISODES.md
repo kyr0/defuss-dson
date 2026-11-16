@@ -6,7 +6,6 @@ Agents append `<UTC ISO> s=<session> LESSON <VAE-DIALECT>` only for a falsified 
 Session start injects the 3 newest open entries: LESSON, FINDING learn=none, FAIL without a later DONE.
 Wrap: EVERY lead becomes a test | .vae/VERIFY.py rule | one MEMORY line with BC, then delete; OR delete BC evidence. -->
 
-2026-11-01T14:47:17Z s=80ef108c FAIL env.example
 2026-11-01T14:52:43Z s=80ef108c DONE fp=e47c1fa7f528 cov=100.0% paths=.claude/settings.json,.github/workflows/verify.yml,AGENTS.md,ARCH.md(+40)
 2026-11-01T14:52:43Z s=80ef108c FINDING tsconfig.json:extends learn=verifier: rule build.standalone-tsconfig
 2026-11-01T14:52:43Z s=80ef108c FINDING src/*.test.ts:@vitest-environment happy-dom learn=verifier: make test/coverage run in the gate; the annotation is gone and coverage thresholds fail an empty run
@@ -76,3 +75,34 @@ Wrap: EVERY lead becomes a test | .vae/VERIFY.py rule | one MEMORY line with BC,
 2026-11-01T20:11:43Z s=80ef108c FINDING scripts/site.mjs:measure learn=verifier: site.mjs --check in CI now compares a platform-independent figure; the measure() comment records why node:zlib must not return
 2026-11-01T20:19:35Z s=80ef108c DONE fp=29c6357d6302 cov=100.0% paths=ARCH.md,docs/assets/site.js,e2e/site.spec.ts
 2026-11-01T20:19:35Z s=80ef108c FINDING docs/assets/site.js:version badges learn=test: e2e/site.spec.ts answers the request itself: 9.9.9 updates every badge, a 503 keeps the build's version, in Chromium and WebKit
+2026-11-16T15:26:08Z s=80ef108c FAIL lint
+2026-11-16T15:29:07Z s=80ef108c DONE fp=f94fe4d5d943 cov=100.0% paths=ARCH.md,CHANGELOG.md,README.md,docs/data/bench.json(+12)
+2026-11-16T15:29:07Z s=80ef108c FINDING src/binary-io.ts:Writer.u32 learn=test: every round-trip test in src/binary.test.ts grows the buffer past 256 bytes or not; the equivalence probe and the suite fail on this order
+2026-11-16T15:29:07Z s=80ef108c FINDING src/binary.ts:elementCount learn=test: src/binary.test.ts refuses Object.defineProperty(new Uint8Array(2), 'length', { value: 99, enumerable: true })
+2026-11-16T15:29:07Z s=80ef108c FINDING src/binary.ts:objectNode (oxlint unicorn/no-new-array) learn=verifier: make lint already enforces it
+2026-11-16T15:29:07Z s=80ef108c FINDING ARCH.md:security (PROSE P precision) learn=none: a wording precision issue, not mechanically checkable
+2026-11-16T15:29:07Z s=80ef108c FINDING docs/index.html:368 (PROSE B evidence) learn=none: prose comparing live benchmark figures cannot be checked against the regenerated JSON by a rule kind without a new project check; not worth one for one sentence
+2026-11-16T16:26:09Z s=80ef108c DONE fp=3d8545de43f0 cov=100.0% paths=ARCH.md,CHANGELOG.md,README.md,docs/data/bench.json(+12)
+2026-11-16T16:26:09Z s=80ef108c FINDING src/binary-io.ts:Writer.u32 learn=test: round trips in src/binary.test.ts grow the buffer and fail on this order
+2026-11-16T16:26:09Z s=80ef108c FINDING src/binary.ts:elementCount learn=test: src/binary.test.ts refuses a Uint8Array with an own enumerable length of 99
+2026-11-16T16:26:09Z s=80ef108c FINDING src/binary.ts:decode fill (key in inherited) learn=test: src/binary.test.ts patches an inherited setter and a read-only name on the prototypes and expects own data properties and no setter call
+2026-11-16T16:26:09Z s=80ef108c FINDING src/binary-io.ts:Reader.name, Reader.text learn=test: tests for 3,000 colliding names and long strings with U+FEFF, lone and paired surrogates at the 32/48/4096 cutoffs
+2026-11-16T16:26:09Z s=80ef108c FINDING src/binary.test.ts (prototype test, first version) learn=none: hardening every internal array against a tampered Array.prototype is not a stated requirement
+2026-11-16T16:26:09Z s=80ef108c FINDING src/binary-io.ts:utf16Decoder (coverage 99.88 % statements) learn=verifier: the 100 % coverage threshold in vitest.config.ts catches it
+2026-11-16T16:26:09Z s=80ef108c FINDING src/binary.ts:decode Error fill comment (PROSE B evidence) learn=none: claim precision, not mechanically checkable
+2026-11-16T16:26:09Z s=80ef108c FINDING ARCH.md:security (PROSE P precision) learn=none: wording precision
+2026-11-16T16:26:09Z s=80ef108c FINDING docs/index.html:368 (PROSE B evidence) learn=none: a prose comparison with regenerated figures; one sentence does not justify a project check
+2026-11-16T16:43:04Z s=80ef108c DONE fp=c1b942121e10 cov=100.0% paths=ARCH.md,CHANGELOG.md,README.md,docs/data/bench.json(+15)
+2026-11-16T16:43:04Z s=80ef108c FINDING src/crc32c.ts:CRC (Uint32Array) learn=none: a JIT speculation effect that occurs in a fraction of processes; no deterministic test or rule can catch it, the reason is documented at the table
+2026-11-16T16:43:04Z s=80ef108c FINDING src/binary.test.ts:every() (oxlint no-sparse-arrays) learn=verifier: make lint enforces it
+2026-11-16T16:43:04Z s=80ef108c FINDING documentation/binary.md:38 (PROSE B evidence) learn=test: e2e/fixtures/binary-matrix.mjs rejects { run() {} } with trusted
+2026-11-16T16:43:04Z s=80ef108c FINDING docs/index.html:368 (PROSE B evidence) learn=none: a one-off release-number reference
+2026-11-16T16:43:04Z s=80ef108c FINDING src/binary.test.ts (buffer reuse test) learn=test: pins the size computation for every tag in both directions
+2026-11-16T16:43:04Z s=80ef108c FINDING src/binary.ts:encode, decode (flat tables, trusted) learn=test: src/binary.test.ts trusted and exact-size tests, e2e matrix trusted checks on Node.js and Bun, ESM and CommonJS
+2026-11-16T17:02:13Z s=80ef108c FAIL lint,wire.tags-frozen
+2026-11-16T17:04:23Z s=80ef108c DONE fp=fdfd796d8992 cov=100.0% paths=ARCH.md,CHANGELOG.md,README.md,docs/data/bench.json(+18)
+2026-11-16T17:04:23Z s=80ef108c FINDING .vae/checks/wire-tags.py (subtype lists moved) learn=verifier: the project check itself caught the move
+2026-11-16T17:04:23Z s=80ef108c FINDING src/binary-io.ts:limits (unknown options) learn=test: src/binary.test.ts pins an unknown option and the error order
+2026-11-16T17:04:23Z s=80ef108c FINDING src/binary-encode.ts:encodeInto (reused lists) learn=test: src/binary.test.ts encodes from inside a trusted getter and compares both results with standalone encodes
+2026-11-16T17:04:23Z s=80ef108c FINDING src/binary-writer.fixture.ts (Writer moved) learn=none: structure choice
+2026-11-16T17:04:23Z s=80ef108c FINDING src/binary-encode.ts (rejected variants) learn=none: measurement result, recorded in this review

@@ -1,8 +1,8 @@
 {
   "name": "defuss-dson",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "type": "module",
-  "description": "Typed JSON for JavaScript: Map, Set, Date, RegExp, BigInt, typed arrays, undefined, NaN and circular references survive a trip through JSON text.",
+  "description": "High performance typed JSON for JavaScript: Map, Set, Date, RegExp, BigInt, typed arrays, undefined, NaN and circular references survive a trip through JSON text.",
   "license": "MIT",
   "author": "Aron Homberg <info@aron-homberg.de>",
   "repository": {
