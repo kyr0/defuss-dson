@@ -23,11 +23,14 @@ for (let n = 0; n < 256; n++) {
 for (let n = 0; n < 256; n++)
   for (let k = 1; k < 16; k++) CRC[k * 256 + n] = (CRC[(k - 1) * 256 + n] >>> 8) ^ CRC[CRC[(k - 1) * 256 + n] & 255];
 
-/** CRC32C of `bytes`, as the frame header stores it. */
-export const checksum = (bytes: Uint8Array): number => {
+/**
+ * CRC32C of bytes[start, stop), as the frame header stores it. Why a range instead of a subarray: a batch reads every
+ * header and payload from one input, and a subarray per checksum would allocate twice per frame.
+ */
+export const checksum = (bytes: Uint8Array, start = 0, stop = bytes.length): number => {
   let crc = -1;
-  let i = 0;
-  const end = bytes.length - 15;
+  let i = start;
+  const end = stop - 15;
   for (; i < end; i += 16) {
     const low = crc ^ (bytes[i] | (bytes[i + 1] << 8) | (bytes[i + 2] << 16) | (bytes[i + 3] << 24));
     crc = CRC[3840 + (low & 255)] ^ CRC[3584 + ((low >>> 8) & 255)] ^ CRC[3328 + ((low >>> 16) & 255)] ^
@@ -36,6 +39,6 @@ export const checksum = (bytes: Uint8Array): number => {
       CRC[1024 + bytes[i + 11]] ^ CRC[768 + bytes[i + 12]] ^ CRC[512 + bytes[i + 13]] ^ CRC[256 + bytes[i + 14]] ^
       CRC[bytes[i + 15]];
   }
-  for (; i < bytes.length; i++) crc = (crc >>> 8) ^ CRC[(crc ^ bytes[i]) & 255];
+  for (; i < stop; i++) crc = (crc >>> 8) ^ CRC[(crc ^ bytes[i]) & 255];
   return ~crc >>> 0;
 };

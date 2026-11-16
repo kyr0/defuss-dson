@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.5.0
+
+- VERIFIED: `defuss-dson/sequence` exports `decodeFrames(bytes, offsets, options?)`, which decodes the frames at a list of recorded offsets of one input, such as a read window, and returns their `DecodedFrame`s in the given order. It checks each frame as `decodeFrame` does, applies the limits to each frame, and throws on any invalid frame without returning the others. It validates the options and wraps the input once per call. For 32 frames of 48 bytes it took 8.0 µs against 11.0 µs for 32 `decodeFrame` calls on Node.js 26, and 6.1 against 8.4 µs on Bun 1.4; for 196-byte rows 23.1 against 26.1 µs and 21.2 against 23.5 µs. On 5 kB frames it made no measurable difference.
+- VERIFIED: `decodeFrame` and `SequenceDecoder` read a frame's header and payload through one reader over the input instead of a reader per subarray, and no longer validate the options a second time per payload. On the same 32 frames of 48 bytes, `decodeFrame` took 11.0 instead of 17.5 µs on Node.js 26 and 8.4 instead of 11.4 µs on Bun 1.4; `SequenceDecoder.push` took 9.5 instead of 16.2 µs and 7.9 instead of 12.1 µs. The wire format is unchanged, and so are the errors: 600 generated values, framed alone and in pairs, truncated and with 20 bit flips each, gave the same value or the same error class and message from 1.4.0 and this build in 69,000 calls of `decodeFrame`, `inspectFrame` and `SequenceDecoder`, on Node.js and Bun. A payload still cannot read past its own frame.
+
 ## 1.4.0
 
 - VERIFIED: `encode` and `encodeFrame` take `{ trusted: true }` for values that hold only plain data, such as index pages a program builds itself. The encoder then reads keys with `Object.keys` and values by property access instead of checking each property's descriptor, and skips the check for extra properties on built-ins. Output for such values is byte-identical; a value with getters, non-enumerable properties or symbol keys is not rejected but encoded without those checks. Errors are checked either way. Decoding accepts the option and ignores it. The new `EncodeOptions` type describes it.

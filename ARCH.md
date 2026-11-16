@@ -15,16 +15,18 @@ flowchart LR
   equals --> serialize
   serialize --> tags["tags.ts: record tags"]
   deserialize --> tags
-  sequence["sequence.ts: frames and incremental decoding"] --> binary["binary.ts: decode(), encode()"]
+  sequence["sequence.ts: frames, batches and incremental decoding"] --> decoder["binary-decode.ts: bytes to value"]
   sequence --> encoder["binary-encode.ts: value table to bytes"]
-  binary --> encoder
-  binary --> format["binary-format.ts: fixed type lists, graph walk"]
+  binary["binary.ts: decode(), encode()"] --> encoder
+  binary --> decoder
+  decoder --> format["binary-format.ts: fixed type lists, graph walk"]
   encoder --> format
   binary --> bytes["binary-io.ts: options, bounded reads"]
+  decoder --> bytes
   encoder --> bytes
   sequence --> bytes
   sequence --> crc["crc32c.ts: frame checksums"]
-  binary --> tags
+  decoder --> tags
   encoder --> tags
 ```
 
@@ -36,11 +38,12 @@ flowchart LR
 | `src/json.ts` | `parse` and `stringify`: the record list carried by `JSON.parse` and `JSON.stringify`. |
 | `src/equals.ts` | `isEqual`: compares two values by their DSON text. |
 | `src/index.ts` | The public `DSON` object and `clone`; its interface carries the API documentation into the published type declarations. |
-| `src/binary.ts` | The `defuss-dson/binary` entry: the strict decoder and the public `encode`. |
+| `src/binary.ts` | The `defuss-dson/binary` entry: the public `encode` and `decode`. |
+| `src/binary-decode.ts` | The strict decoder: reads one value table between a reader's position and end, under limits the caller validated, and builds the value. Internal. |
 | `src/binary-encode.ts` | The encoder: collects the value table in flat lists, sizes it exactly and writes one buffer, with room for a frame header when `encodeFrame` asks. Internal. |
 | `src/binary-format.ts` | The fixed constructor lists and the graph walk that bounds depth, shared by encoder and decoder. Internal. |
 | `src/binary-io.ts` | Option validation, `EncodeOptions` and bounded byte reads, with the string reader and its property-name cache. |
-| `src/sequence.ts` | Independent frames, header inspection, direct decoding and incremental state. |
+| `src/sequence.ts` | Independent frames, header inspection, direct and batch decoding, and incremental state. |
 | `src/crc32c.ts` | The CRC32C of frame headers and payloads, 16 bytes per step. Internal, not a package entry. |
 
 ## Why this design
@@ -51,7 +54,7 @@ flowchart LR
 
 **A separate binary walker.** VERIFIED: binary encoding rejects unsupported values and never calls the permissive text serializer. Its flat value table preserves forward and backward references. Raw ArrayBuffer bytes remain unchanged, including aliases between views; explicit view endian markers reject incompatible multi-byte interpretations. UTF-16LE strings preserve lone surrogates without a replacement-character round trip. A depth-first validation pass bounds first visits without recursive calls. Decoding allocates leaves, resolves views and boxes, then fills containers with own data properties.
 
-**Per-frame lengths and two checksums.** VERIFIED: a header CRC32C detects damaged lengths before allocation; a payload CRC32C checks data before decoding. Each frame has its own binary value table, so a stored byte offset suffices to decode one record. The incremental decoder retains at most one partial frame, copies fragments and closes on failure. DSON reports offsets; persistent indexes, recovery and compaction belong to the storage layer. No field-level access or compression is implemented.
+**Per-frame lengths and two checksums.** VERIFIED: a header CRC32C detects damaged lengths before allocation; a payload CRC32C checks data before decoding. Each frame has its own binary value table, so a stored byte offset suffices to decode one record. The frame decoders read headers and payloads through one reader over the whole input, whose end moves to each payload's end, instead of a reader per subarray; `decodeFrames` also validates its options once for all its offsets. VERIFIED: (probe, 2026-11-17) on 32 frames of 48 bytes, the shared reader made `decodeFrame` 37 % faster on Node.js 26 and 26 % on Bun 1.4, and `decodeFrames` took another 27 % off on both; with 5 kB frames the decoding dominates: the shared reader gained about 2 % and the batch nothing measurable. The incremental decoder retains at most one partial frame, copies fragments and closes on failure. DSON reports offsets; persistent indexes, recovery and compaction belong to the storage layer. No field-level access or compression is implemented.
 
 **Fixed constructor lists in the decoder instead of an open global lookup.** The record tag is part of the input. Resolving any tag with `globalThis[tag]`, as defuss-dson did up to 1.1.2, let a crafted payload construct any global, such as `Function` or `WebSocket`. The decoder therefore builds the structural tags directly and accepts string tags only from the list of typed arrays, binary types and wrapper objects the encoder writes; anything else throws. Typed arrays are still fetched from `globalThis` after the list check, so that a runtime without `Float16Array` fails with a clear error instead of at module load.
 
@@ -84,4 +87,4 @@ The trust boundary is `DSON.parse`: its input may come from another process or u
 
 The encoder writes an Error's `name` and `message` but not its stack, because a stack trace exposes the sender's file paths. The library performs no I/O, opens no connections, and collects no data. The website runs the visitor's playground code in the visitor's own tab and loads defuss-shadcn from jsDelivr with Subresource Integrity hashes. It also asks jsDelivr's API for the version npm marks as latest, for the version badges; that request carries no data about the visitor beyond what any request to jsDelivr does, and the page keeps the build's version when it fails.
 
-VERIFIED: binary decoding is a separate untrusted-input boundary with finite byte, depth and reference limits. Lengths are checked against remaining bytes before allocation; view references must name buffers; constructors come from fixed lists. Error causes and aggregate errors survive in binary, but sender stacks and source locations remain omitted. Encoding a view stores its complete backing buffer, which callers must account for when a window shares private bytes. CRC32C is damage detection, not authentication. The binary decoder keeps up to 256 recently decoded property names of at most 32 characters between calls, never string values. The encoder keeps its working lists between calls, but empties every slot that held a value or a property name before a call returns, and drops the lists when the call fails or they grew past 4,096 entries. `trusted` moves the encoder's property checks to the caller: a value that breaks its guarantee runs its getters during encoding and loses non-enumerable properties, symbol keys and extra properties of built-ins without an error. The tests cover every truncation of a representative value, seeded mutations, frame corruption and every two-/three-chunk split of a small sequence.
+VERIFIED: binary decoding is a separate untrusted-input boundary with finite byte, depth and reference limits. Lengths are checked against remaining bytes before allocation; view references must name buffers; constructors come from fixed lists. Error causes and aggregate errors survive in binary, but sender stacks and source locations remain omitted. Encoding a view stores its complete backing buffer, which callers must account for when a window shares private bytes. A payload cannot read past its own frame, also when later frames follow in the same input; `src/sequence.test.ts` decodes a frame whose last string claims more bytes than the frame holds, followed by another frame. CRC32C is damage detection, not authentication. The binary decoder keeps up to 256 recently decoded property names of at most 32 characters between calls, never string values. The encoder keeps its working lists between calls, but empties every slot that held a value or a property name before a call returns, and drops the lists when the call fails or they grew past 4,096 entries. `trusted` moves the encoder's property checks to the caller: a value that breaks its guarantee runs its getters during encoding and loses non-enumerable properties, symbol keys and extra properties of built-ins without an error. The tests cover every truncation of a representative value, seeded mutations, frame corruption and every two-/three-chunk split of a small sequence.

@@ -6,13 +6,6 @@ Agents append `<UTC ISO> s=<session> LESSON <VAE-DIALECT>` only for a falsified 
 Session start injects the 3 newest open entries: LESSON, FINDING learn=none, FAIL without a later DONE.
 Wrap: EVERY lead becomes a test | .vae/VERIFY.py rule | one MEMORY line with BC, then delete; OR delete BC evidence. -->
 
-2026-11-01T14:52:43Z s=80ef108c DONE fp=e47c1fa7f528 cov=100.0% paths=.claude/settings.json,.github/workflows/verify.yml,AGENTS.md,ARCH.md(+40)
-2026-11-01T14:52:43Z s=80ef108c FINDING tsconfig.json:extends learn=verifier: rule build.standalone-tsconfig
-2026-11-01T14:52:43Z s=80ef108c FINDING src/*.test.ts:@vitest-environment happy-dom learn=verifier: make test/coverage run in the gate; the annotation is gone and coverage thresholds fail an empty run
-2026-11-01T14:52:43Z s=80ef108c FINDING src/deserialize.ts:VOID learn=test: src/regressions.test.ts restores undefined
-2026-11-01T14:52:43Z s=80ef108c FINDING src/serialize.ts:PRIMITIVE number learn=test: src/regressions.test.ts special numbers; .vae/checks/wire-tags.py freezes tags
-2026-11-01T14:52:43Z s=80ef108c FINDING src/serialize.ts:encodeTypedItem learn=test: src/regressions.test.ts typed arrays
-2026-11-01T14:52:43Z s=80ef108c FINDING src/serialize.ts:DATE learn=test: src/regressions.test.ts invalid Date
 2026-11-01T14:52:43Z s=80ef108c FINDING src/deserialize.ts:ArrayBuffer|DataView getValue learn=test: src/regressions.test.ts identity
 2026-11-01T14:52:43Z s=80ef108c FINDING src/serialize.ts:DataView spread learn=test: src/regressions.test.ts window
 2026-11-01T14:52:43Z s=80ef108c FINDING src/deserialize.ts:createError learn=test: src/regressions.test.ts AggregateError
@@ -106,3 +99,10 @@ Wrap: EVERY lead becomes a test | .vae/VERIFY.py rule | one MEMORY line with BC,
 2026-11-16T17:04:23Z s=80ef108c FINDING src/binary-encode.ts:encodeInto (reused lists) learn=test: src/binary.test.ts encodes from inside a trusted getter and compares both results with standalone encodes
 2026-11-16T17:04:23Z s=80ef108c FINDING src/binary-writer.fixture.ts (Writer moved) learn=none: structure choice
 2026-11-16T17:04:23Z s=80ef108c FINDING src/binary-encode.ts (rejected variants) learn=none: measurement result, recorded in this review
+2026-11-16T23:29:18Z s=96b2ed3a FAIL tests.e2e.1
+2026-11-16T23:30:45Z s=96b2ed3a DONE fp=56ef7fe83ad0 cov=100.0% paths=ARCH.md,CHANGELOG.md,README.md,docs/data/bench.json(+12)
+2026-11-16T23:30:45Z s=96b2ed3a FINDING documentation/binary.md:144 B03/P07; CHANGELOG.md:5; ARCH.md:61 learn=none: one-off wording fixed to 'no measurable difference'; not mechanically checkable
+2026-11-16T23:30:45Z s=96b2ed3a FINDING documentation/binary.md:144 R03 learn=none: doc sentence added; the contract is covered by the repeated-offset assertion in src/sequence.test.ts
+2026-11-16T23:30:45Z s=96b2ed3a FINDING documentation/binary.md:144 A10 learn=none: split into contract and measurement paragraphs
+2026-11-16T23:37:01Z s=96b2ed3a DONE fp=6d47a48b7bca cov=100.0% paths=ARCH.md,CHANGELOG.md,README.md,docs/data/bench.json(+15)
+2026-11-16T23:37:01Z s=96b2ed3a FINDING package.json:3; CHANGELOG.md:3; README.md:256; documentation/format.md:3; documentation/binary.md:146 learn=none: release bookkeeping; make docs and e2e already check generated version figures

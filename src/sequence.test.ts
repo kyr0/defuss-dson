@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { encode } from "./binary.js";
-import { encodeFrame, decodeFrame, inspectFrame, SequenceDecoder, FRAME_HEADER_BYTES } from "./sequence.js";
+import { encodeFrame, decodeFrame, decodeFrames, inspectFrame, SequenceDecoder, FRAME_HEADER_BYTES } from "./sequence.js";
 import { checksum } from "./crc32c.js";
 
 const join = (...parts: Uint8Array[]): Uint8Array => {
@@ -72,6 +72,56 @@ describe("framed sequences", () => {
     const repeated: any = {}; repeated.self = repeated;
     const independent = new SequenceDecoder().push(join(encodeFrame(repeated), encodeFrame(repeated)));
     expect(independent[0].value).not.toBe(independent[1].value);
+  });
+
+  it("decodes a batch of frames at recorded offsets, in the given order, as decodeFrame does one by one", () => {
+    const cyclic: any = { id: "c" }; cyclic.self = cyclic;
+    const values = [{ id: "a", at: new Date(0) }, "\n", cyclic, new Map([[1n, new Uint8Array([7])]])];
+    const frames = values.map(value => encodeFrame(value));
+    const bytes = join(new Uint8Array(3), ...frames);
+    const offsets: number[] = [];
+    for (let offset = 3; offset < bytes.length; offset += inspectFrame(bytes, offset).byteLength) offsets.push(offset);
+    const order = [offsets[2], offsets[0], offsets[3], offsets[2]];
+    const batch = decodeFrames(bytes, order);
+    expect(batch).toEqual(order.map(offset => decodeFrame(bytes, offset)));
+    expect(batch.map(frame => frame.offset)).toEqual(order);
+    expect(batch[0].value.self).toBe(batch[0].value);
+    expect(batch[3].value).not.toBe(batch[0].value);
+    expect(decodeFrames(bytes, Uint32Array.from(offsets)).map(frame => frame.value)).toEqual(values);
+    expect(decodeFrames(bytes, [])).toEqual([]);
+    // the limits apply to each frame, not to their sum
+    const largest = Math.max(...frames.map(frame => frame.length)) - FRAME_HEADER_BYTES;
+    expect(decodeFrames(bytes, offsets, { maxRecordBytes: largest })).toHaveLength(4);
+    expect(() => decodeFrames(bytes, offsets, { maxRecordBytes: largest - 1 })).toThrow(/maxRecordBytes/);
+  });
+
+  it("rejects any invalid frame, offset or option of a batch", () => {
+    const bytes = join(encodeFrame({ a: 1 }), encodeFrame([1, 2]));
+    const second = inspectFrame(bytes).byteLength;
+    for (let i = 0; i < bytes.length; i++) {
+      const corrupted = bytes.slice(); corrupted[i] ^= 1;
+      expect(() => decodeFrames(corrupted, [0, second])).toThrow(TypeError);
+    }
+    expect(() => decodeFrames(bytes, [0, 1])).toThrow(TypeError);
+    expect(() => decodeFrames(bytes, [0, bytes.length])).toThrow(/truncated/);
+    expect(() => decodeFrames(bytes.subarray(0, bytes.length - 1), [0, second])).toThrow(/truncated frame payload/);
+    for (const offset of [-1, 0.5, NaN]) expect(() => decodeFrames(bytes, [0, offset])).toThrow(RangeError);
+    expect(() => decodeFrames(bytes, [0], { maxDepth: -1 })).toThrow(RangeError);
+    expect(() => decodeFrames(bytes, [0], { maxReferences: 1 })).toThrow(/maxReferences/);
+    expect(() => decodeFrames([] as any, [])).toThrow(TypeError);
+  });
+
+  it("bounds each payload by its frame length, also when later frames follow in the same input", () => {
+    // A payload whose last string claims more characters than the frame holds, with valid checksums:
+    // the reader must stop at the frame's end instead of reading the next frame's bytes.
+    const frame = encodeFrame("abcd");
+    const short = frame.slice(0, frame.length - 2);
+    new DataView(short.buffer).setUint32(4, short.length - FRAME_HEADER_BYTES, true);
+    new DataView(short.buffer).setUint32(8, crc(short.subarray(FRAME_HEADER_BYTES)), true); repairHeader(short);
+    const bytes = join(short, encodeFrame("next"));
+    expect(() => decodeFrame(bytes)).toThrow(/truncated value|invalid length/);
+    expect(() => decodeFrames(bytes, [0])).toThrow(/truncated value|invalid length/);
+    expect(() => new SequenceDecoder().push(bytes)).toThrow(/truncated value|invalid length/);
   });
 
   it("copies incomplete fragments so the caller may reuse its chunk buffer", () => {

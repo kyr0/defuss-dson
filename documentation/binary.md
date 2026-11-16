@@ -11,6 +11,7 @@ VERIFIED: since defuss-dson 1.3.0, `defuss-dson/binary` encodes one strict value
 | `encodeFrame(value, options?)` | `Uint8Array` | One independent frame. Concatenate frames to form a sequence. |
 | `inspectFrame(bytes, offset = 0, options?)` | `FrameMetadata` | Reads only the 16-byte header at the offset and verifies its checksum. The payload need not be present. |
 | `decodeFrame(bytes, offset = 0, options?)` | `DecodedFrame` | Verifies and decodes one frame, leaving later bytes unread. |
+| `decodeFrames(bytes, offsets, options?)` | `DecodedFrame[]` | Verifies and decodes the frames at `offsets` of one input, in that order. Any invalid frame throws, and the call returns none. |
 | `new SequenceDecoder(options?)` | decoder | Retains incomplete frame state across `push(chunk)` calls. |
 | `decoder.push(chunk)` | `SequenceRecord[]` | Returns every complete record in this call, in order. Empty chunks are valid. |
 | `decoder.finish()` | `void` | Closes the decoder; throws if the last frame is incomplete. |
@@ -122,7 +123,7 @@ VERIFIED: this format uses length/checksum framing as in [LevelDB's log format](
 VERIFIED: `FrameMetadata` contains `offset`, `byteLength`, `payloadOffset`, `payloadLength` and `checksum`. `DecodedFrame` adds `value`; `SequenceRecord` adds `index`. Add `byteLength` to `offset` to skip a record using its header alone. An ordinal or application-key index must store those offsets for direct access. Seeking locates one record; decoding it still materializes that record's entire graph.
 
 ```js
-import { encodeFrame, SequenceDecoder, decodeFrame, inspectFrame } from "defuss-dson/sequence";
+import { encodeFrame, SequenceDecoder, decodeFrame, decodeFrames, inspectFrame } from "defuss-dson/sequence";
 
 const first = encodeFrame({ id: "a", score: 1 });
 const second = encodeFrame({ id: "b", score: 2 });
@@ -138,7 +139,12 @@ const offsets = new Map(records.map(record => [record.value.id, record.offset]))
 console.log(records.length, records[1].index); // 2 1
 console.log(decodeFrame(bytes, offsets.get("b")).value.score); // 2
 console.log(inspectFrame(bytes).byteLength === records[1].offset); // true
+console.log(decodeFrames(bytes, [offsets.get("b"), 0]).map(frame => frame.value.id).join()); // b,a
 ```
+
+VERIFIED: since 1.5.0, `decodeFrames(bytes, offsets, options?)` decodes many recorded offsets of one input, such as the frames of a read window, with the checks of `decodeFrame` for each frame. Offsets are any array-like list of numbers, a `Uint32Array` included, in any order; a repeated offset decodes again into a separate value. The limits apply to each frame, so work and memory grow with the length of the list, which the caller bounds. Every payload stays bounded by its own frame's length, even when later frames follow in the same input. The call validates the options and wraps the input once instead of once per frame.
+
+VERIFIED: in a probe on 2026-11-17 (medians of 15 samples), `decodeFrames` on 32 frames of 48 bytes each took 8.0 µs, against 11.0 µs for 32 `decodeFrame` calls on Node.js 26, and 6.1 against 8.4 µs on Bun 1.4. For 196-byte rows it took 23.1 against 26.1 µs on Node.js and 21.2 against 23.5 µs on Bun. With frames of 5 kB the decoding dominates, and the batch made no measurable difference.
 
 VERIFIED: DSON performs no I/O and builds no persistent indexes. `defuss-dbsonl` owns persistent ordinal/key indexes, updates, tombstones, commits, recovery and compaction. There are no compression or field-offset tables in version 1. A future compression extension needs independent units per record to retain direct access.
 

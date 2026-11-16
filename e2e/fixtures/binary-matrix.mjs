@@ -1,5 +1,5 @@
 import { encode, decode } from 'defuss-dson/binary';
-import { encodeFrame, inspectFrame, decodeFrame, SequenceDecoder, FRAME_HEADER_BYTES } from 'defuss-dson/sequence';
+import { encodeFrame, inspectFrame, decodeFrame, decodeFrames, SequenceDecoder, FRAME_HEADER_BYTES } from 'defuss-dson/sequence';
 
 let checks = 0;
 const assert = (condition) => { if (!condition) throw new Error(`binary matrix failed at ${checks}`); checks++; };
@@ -31,6 +31,9 @@ const frames = [encodeFrame(root), encodeFrame({ id: 'second' })];
 const sequence = new Uint8Array(frames[0].length + frames[1].length); sequence.set(frames[0]); sequence.set(frames[1], frames[0].length);
 assert(FRAME_HEADER_BYTES === 16 && inspectFrame(sequence).byteLength === frames[0].length);
 assert(decodeFrame(sequence, frames[0].length).value.id === 'second');
+const batch = decodeFrames(sequence, [frames[0].length, 0]);
+assert(batch.length === 2 && batch[0].value.id === 'second' && batch[1].value.self === batch[1].value && batch[1].offset === 0);
+reject(() => decodeFrames(sequence, [0, 1]));
 for (let split = 0; split <= sequence.length; split++) {
   const decoder = new SequenceDecoder();
   const records = [...decoder.push(sequence.subarray(0, split)), ...decoder.push(sequence.subarray(split))]; decoder.finish();

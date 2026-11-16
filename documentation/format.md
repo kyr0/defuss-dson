@@ -1,6 +1,6 @@
 # DSON format
 
-This page specifies the text `DSON.stringify` writes and `DSON.parse` reads, for anyone who writes a reader in another language, debugs a payload or reviews the trust model. VERIFIED: it describes defuss-dson 1.4.0; tags -1 to 8 are unchanged since 1.0.
+This page specifies the text `DSON.stringify` writes and `DSON.parse` reads, for anyone who writes a reader in another language, debugs a payload or reviews the trust model. VERIFIED: it describes defuss-dson 1.5.0; tags -1 to 8 are unchanged since 1.0.
 
 ## Shape
 
